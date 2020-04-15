@@ -3,12 +3,14 @@ package org.example.foodie;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
@@ -25,6 +27,14 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.internal.NavigationMenuPresenter;
 import com.google.android.material.navigation.NavigationView;
 
+import org.example.foodie.models.ResponseUser;
+import org.example.foodie.org.example.foodie.apifetch.FoodieClient;
+import org.example.foodie.org.example.foodie.apifetch.ServiceGenerator;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
@@ -33,15 +43,36 @@ public class MainActivity extends AppCompatActivity {
     //NavigationView navigationView;
     FrameLayout frameLayout;
     ActionBarDrawerToggle toggle;
+    public static String user;
     //Toolbar toolbar;
 
     // Make sure to be using androidx.appcompat.app.ActionBarDrawerToggle version.
     private ActionBarDrawerToggle drawerToggle;
     private int mSelectedId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        Intent i = getIntent();
+
+        String token = i.getStringExtra("token");
+        user = i.getStringExtra("name");
+
+
+        if (token != null) {
+            Log.i("TOKEN", token);
+
+            WelcomeActvity.getInstance().finish();
+        }
+
+
+
+
+
+
 
         // Set a Toolbar to replace the ActionBar.
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -54,6 +85,13 @@ public class MainActivity extends AppCompatActivity {
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         nvDrawer = (NavigationView) findViewById(R.id.nvView);
+
+
+        View headerView = nvDrawer.getHeaderView(0);
+        TextView userName = headerView.findViewById(R.id.userName);
+        userName.setText("USER: " + String.valueOf(user));
+
+
         // Setup drawer view
         setupDrawerContent(nvDrawer);
         //FragmentManager fragmentManager=new F;
@@ -74,6 +112,8 @@ public class MainActivity extends AppCompatActivity {
         } catch (InstantiationException e) {
             e.printStackTrace();
         }
+
+
         //set default fragment
         loadFragment(new Home());
 
@@ -101,6 +141,8 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     private void setupDrawerContent(NavigationView navigationView) {
+
+
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -127,6 +169,9 @@ public class MainActivity extends AppCompatActivity {
                 id=true;
                 fragmentClass = Home.class;
                 break;
+            case R.id.logout:
+                LogoutUser();
+                return;
 
 
 
@@ -170,6 +215,47 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    public void onBackPressed() {
 
+        finish();
+        super.onBackPressed();
+    }
+
+    public void LogoutUser() {
+
+        FoodieClient foodieClient = ServiceGenerator.createService(FoodieClient.class);
+
+
+        Call<Void> call = foodieClient.Logout(WelcomeActvity.token);
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+
+                // Log.i("Response", String.valueOf(response.body().getToken()));
+                if (response.code() == 200) {
+                    Toast.makeText(getApplicationContext(), "Success!", Toast.LENGTH_SHORT).show();
+                    WelcomeActvity.token = null;
+                    Intent intent = new Intent(MainActivity.this, WelcomeActvity.class);
+                    startActivity(intent);
+                    finish();
+
+                } else {
+
+                    Log.i("Response", response.raw().toString());
+                    Toast.makeText(getApplicationContext(), response.raw().toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+    }
 
 }

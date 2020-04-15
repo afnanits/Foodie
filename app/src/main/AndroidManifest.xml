@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.example.foodie">
     <uses-sdk android:targetSdkVersion="29" />
-
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:allowBackup="true"
         android:icon="@drawable/applogo"
@@ -28,6 +28,7 @@
             android:name=".MainActivity"
             android:screenOrientation="fullSensor"
             android:theme="@style/AppTheme.NoActionBar">
+
         </activity>
     </application>
 

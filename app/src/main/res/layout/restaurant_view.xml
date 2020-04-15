@@ -52,6 +52,7 @@
         android:id="@+id/rating"
         android:textColor="#000"
         android:layout_marginLeft="330dp"
+        android:layout_alignParentEnd="true"
         android:background="@color/colorPrimary"
         android:text="5.0"/>
     <TextView
