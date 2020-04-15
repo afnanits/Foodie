@@ -1,6 +1,8 @@
 package org.example.foodie;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,6 +31,13 @@ public class WelcomeActvity extends AppCompatActivity {
 
         Log.i("token:", String.valueOf(token));
 
+
+        if (token == null) {
+            SharedPreferences sharedPreferences = getSharedPreferences("org.example.foodie", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+
+            token = sharedPreferences.getString("token", null);
+        }
 
         //If a token is set we will start main activity on startin our app
         if (token != null) {

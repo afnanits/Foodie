@@ -1,12 +1,15 @@
 package org.example.foodie;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.renderscript.ScriptGroup;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,11 +27,15 @@ public class LoginActivity extends AppCompatActivity {
     public static User user = new User("", "");
     private Button LoginButton;
     private EditText InputEmail, InputPassword;
-
+    private ProgressBar spinner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        spinner = (ProgressBar) findViewById(R.id.progressBar1);
+        spinner.setVisibility(View.GONE);
+
 
         initWidgets();
         LoginButton.setOnClickListener(new View.OnClickListener() {
@@ -48,6 +55,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+    //Login user function
     public void LoginUser(User user) {
 
         FoodieClient foodieClient = ServiceGenerator.createService(FoodieClient.class);
@@ -55,12 +63,14 @@ public class LoginActivity extends AppCompatActivity {
 
         Call<ResponseUser> call = foodieClient.Login(user);
 
+
+        spinner.setVisibility(View.VISIBLE);
         call.enqueue(new Callback<ResponseUser>() {
             @Override
             public void onResponse(Call<ResponseUser> call, Response<ResponseUser> response) {
 
 
-                // Log.i("Response", String.valueOf(response.body().getToken()));
+                //Get user logged if resposne code is 200
                 if (response.code() == 200) {
                     Toast.makeText(getApplicationContext(), "Success!", Toast.LENGTH_SHORT).show();
                     User use = response.body().getUser();
@@ -75,13 +85,25 @@ public class LoginActivity extends AppCompatActivity {
 
 
                     //setting token value here
+
+                    SharedPreferences sharedPreferences = getSharedPreferences("org.example.foodie", Context.MODE_PRIVATE);
+
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+
                     WelcomeActvity.token = response.body().getToken();
+                    editor.putString("name", use.getName());
+                    editor.putString("token", response.body().getToken());
+                    editor.commit();
+                    spinner.setVisibility(View.GONE);
+
+
                     WelcomeActvity.getInstance().finish();
 
                     finish();
 
                 } else {
 
+                    spinner.setVisibility(View.GONE);
                     Log.i("Response", "Invalid Credentials");
                     Toast.makeText(getApplicationContext(), "Invalid credentials", Toast.LENGTH_SHORT).show();
                 }

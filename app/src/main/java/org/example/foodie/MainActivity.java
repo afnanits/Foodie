@@ -1,7 +1,9 @@
 package org.example.foodie;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -10,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
     private NavigationView nvDrawer;
+    private ProgressBar progressBar;
     //DrawerLayout drawer;
     //NavigationView navigationView;
     FrameLayout frameLayout;
@@ -56,10 +60,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+        progressBar = findViewById(R.id.progressBar2);
+
+        progressBar.setVisibility(View.GONE);
+
         Intent i = getIntent();
 
         String token = i.getStringExtra("token");
         user = i.getStringExtra("name");
+
+        if (user == null) {
+            SharedPreferences sharedPreferences = getSharedPreferences("org.example.foodie", Context.MODE_PRIVATE);
+
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+
+            user = sharedPreferences.getString("name", null);
+        }
 
 
         if (token != null) {
@@ -228,21 +244,37 @@ public class MainActivity extends AppCompatActivity {
 
 
         Call<Void> call = foodieClient.Logout(WelcomeActvity.token);
+        progressBar.setVisibility(View.VISIBLE);
+
 
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
 
 
+
                 // Log.i("Response", String.valueOf(response.body().getToken()));
                 if (response.code() == 200) {
                     Toast.makeText(getApplicationContext(), "Success!", Toast.LENGTH_SHORT).show();
+
+
+                    SharedPreferences sharedPreferences = getSharedPreferences("org.example.foodie", Context.MODE_PRIVATE);
+
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                    editor.remove("token");
+
+                    editor.commit();
+
                     WelcomeActvity.token = null;
                     Intent intent = new Intent(MainActivity.this, WelcomeActvity.class);
+                    progressBar.setVisibility(View.GONE);
+
                     startActivity(intent);
                     finish();
 
                 } else {
+                    progressBar.setVisibility(View.GONE);
 
                     Log.i("Response", response.raw().toString());
                     Toast.makeText(getApplicationContext(), response.raw().toString(), Toast.LENGTH_SHORT).show();
@@ -251,6 +283,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
+                //  progressBar.setVisibility(View.GONE);
+
                 Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
 
             }

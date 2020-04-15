@@ -1,6 +1,8 @@
 package org.example.foodie;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -69,11 +71,21 @@ public class RegisterActivity extends AppCompatActivity {
                 if (response.code() == 201) {
                     Toast.makeText(getApplicationContext(), "Success!", Toast.LENGTH_SHORT).show();
 
+                    User use = response.body().getUser();
                     Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                     startActivity(intent);
                     intent.putExtra("token", response.body().getToken());
-                    intent.putExtra("name", response.body().getUser().getName());
+                    intent.putExtra("name", use.getName());
                     WelcomeActvity.token = response.body().getToken();
+
+
+                    SharedPreferences sharedPreferences = getSharedPreferences("org.example.foodie", Context.MODE_PRIVATE);
+
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                    editor.putString("name", use.getName());
+                    editor.putString("token", response.body().getToken());
+                    editor.commit();
                     finish();
                     WelcomeActvity.getInstance().finish();
                 } else {
