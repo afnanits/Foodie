@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +25,8 @@ import retrofit2.Response;
 public class RegisterActivity extends AppCompatActivity {
     public static User user = new User("", "");
     public Button CreateAccountButton;
+
+    private ProgressBar progressBar;
     public EditText InputName, InputPhoneNumber, InputPassword, InputAddress, InputEmail;
 
     @Override
@@ -31,7 +34,9 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        progressBar = findViewById(R.id.progressBar3);
 
+        progressBar.setVisibility(View.GONE);
         initWidgets();
         //  Log.i("Response", String.valueOf(user.getPhone()));
 
@@ -62,6 +67,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         Call<ResponseUser> call = foodieClient.Register(user);
 
+        progressBar.setVisibility(View.VISIBLE);
         call.enqueue(new Callback<ResponseUser>() {
             @Override
             public void onResponse(Call<ResponseUser> call, Response<ResponseUser> response) {
@@ -86,9 +92,11 @@ public class RegisterActivity extends AppCompatActivity {
                     editor.putString("name", use.getName());
                     editor.putString("token", response.body().getToken());
                     editor.commit();
+                    progressBar.setVisibility(View.GONE);
                     finish();
                     WelcomeActvity.getInstance().finish();
                 } else {
+                    progressBar.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(), "Invalid Credentials", Toast.LENGTH_SHORT).show();
                 }
             }
