@@ -4,38 +4,64 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class Order {
+
+    @SerializedName("_id")
     public long id;
+    @SerializedName("user")
     public User user;
+
     public double totalPrice;
+    @SerializedName("foods")
     List<Food> foodList;
     List<Restaurant> restaurantList;
 
-    Order(long id, User user, List<Food> foodList) {
-        this.foodList = foodList;
-        this.id = id;
-        this.user = user;
-    }
+/*
+    foods	[...]
+    restaurant	{...}
+    user	{...}
+    deliveryGuy	{...}
+    status	string
+    Status of the order- RECIEVED/ LEFT/ DELIVERED/ CANCELLED
 
-  /*  @RequiresApi(api = Build.VERSION_CODES.N)
-    @Override
-    public int hashCode() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return Long.hashCode(id);
-        }
-    }
+    payment*	{
+        description:
+        Details of payment
 
-    public boolean equals(Object o) {
-        if (o == this) {
-            return true;
-        } else if (o instanceof Order) {
-            Order e = (Order) o;
-            return e.id == this.id;
-        }
-        return false;
-    }*/
+        method	string
+        Mode of payment- COD/ UPI/ CARD
+
+        status	string
+        Payment status- PAID/ UNPAID
+
+        total	string
+        Total amount to be paid
+
+    }
+}*/
+}
+
+
+class Payment {
+
+    @SerializedName("method")
+    String method;
+
+    @SerializedName("status")
+    String status;
+
+    @SerializedName("total")
+    String total;
+
+    public Payment(String method, String status, String total) {
+        this.method = method;
+        this.status = status;
+        this.total = total;
+    }
 }

@@ -72,9 +72,14 @@ public class Restaurant {
 
     public void deleteOrder(Order order) {
         orderList.remove(order.id);
+
     }
 
-/*    public int hashCode() {
+    public String getName() {
+        return name;
+    }
+
+    /*    public int hashCode() {
         return Long.hashCode(id);
     }
 

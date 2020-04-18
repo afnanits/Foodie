@@ -1,12 +1,14 @@
 package org.example.foodie;
 
 
+import org.example.foodie.models.Restaurant;
 
 import java.util.ArrayList;
 
 //import javax.security.auth.Subject;
 
 public class Util {
+/*
     private static ArrayList<Restaurant> restaurants;
     private static int id=0;
     public Util() {
@@ -54,6 +56,7 @@ public class Util {
     public static ArrayList<Restaurant> getAllRestaurants(){
         return restaurants;
     }
+*/
 
 
 

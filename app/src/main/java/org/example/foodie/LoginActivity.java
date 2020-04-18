@@ -26,7 +26,7 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
     public static User user = new User("", "");
     private Button LoginButton;
-    private EditText InputEmail, InputPassword;
+    private EditText InputPhone, InputPassword;
     private ProgressBar spinner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +38,12 @@ public class LoginActivity extends AppCompatActivity {
 
 
         initWidgets();
+
+
         LoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CreateUser(String.valueOf(InputEmail.getText()), String.valueOf(InputPassword.getText()));
+                CreateUser(String.valueOf(InputPhone.getText()), String.valueOf(InputPassword.getText()));
 
                 Log.i("Credentials", user.getEmail() + " " + user.getPassword());
                 LoginUser(user);
@@ -118,18 +120,18 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    //function to initialise all the widgets
     public void initWidgets() {
-
-
         LoginButton = (Button) findViewById(R.id.login_btn);
-        InputEmail = (EditText) findViewById(R.id.login_email_input);
+        InputPhone = (EditText) findViewById(R.id.login_phone_input);
         InputPassword = (EditText) findViewById(R.id.login_password_input);
 
     }
 
 
-    public void CreateUser(String email, String password) {
-        user = new User(email, password);
+    //function for creating user
+    public void CreateUser(String phone, String password) {
+        user = new User("91" + phone, password);
     }
 
 }

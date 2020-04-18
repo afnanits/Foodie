@@ -14,10 +14,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import org.example.foodie.models.Restaurant;
+
 import java.util.ArrayList;
+import java.util.List;
+
 public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.CustomViewHolder> {
     private Context context;
-    private ArrayList<Restaurant> items;
+    private List<Restaurant> items;
     //  private ArrayList<NEWS> subjects;
 
     public RestaurantAdapter(Context context) {
@@ -35,11 +39,12 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Cu
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
         holder.restaurantName.setText(items.get(position).getName());
-        holder.description.setText(items.get(position).getDescription());
+        //holder.description.setText(items.get(position).getDescription());
         //holder.rating.setText((int) items.get(position).getRating());
       //  holder.eta.setText(items.get(position).getEta());
-        Glide.with(context).asBitmap().load(items.get(position).getImageUrl())
+    /*    Glide.with(context).asBitmap().load(items.get(position).getImageUrl())
                 .into(holder.itemImage);
+    */
     }
     @Override
     public int getItemCount() {
@@ -59,8 +64,9 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Cu
 
         }
     }
-    public void setRestaurants(ArrayList<Restaurant> restaurants) {
-        this.items = restaurants;
+
+    public void setRestaurants(List<Restaurant> restaurantsList) {
+        this.items = restaurantsList;
         notifyDataSetChanged();
     }
 }

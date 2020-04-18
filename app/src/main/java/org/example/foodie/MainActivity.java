@@ -34,6 +34,8 @@ import org.example.foodie.models.ResponseUser;
 import org.example.foodie.org.example.foodie.apifetch.FoodieClient;
 import org.example.foodie.org.example.foodie.apifetch.ServiceGenerator;
 
+import java.util.ArrayList;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -257,22 +259,15 @@ public class MainActivity extends AppCompatActivity {
                 if (response.code() == 200) {
                     Toast.makeText(getApplicationContext(), "Success!", Toast.LENGTH_SHORT).show();
 
-
-                    SharedPreferences sharedPreferences = getSharedPreferences("org.example.foodie", Context.MODE_PRIVATE);
-
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-
-                    editor.remove("token");
-
-                    editor.commit();
-
                     WelcomeActvity.token = null;
                     Intent intent = new Intent(MainActivity.this, WelcomeActvity.class);
                     progressBar.setVisibility(View.GONE);
 
-                    startActivity(intent);
-                    finish();
 
+                    startActivity(intent);
+
+                    finish();
+                    deleteToken();
                 } else {
                     progressBar.setVisibility(View.GONE);
 
@@ -291,5 +286,30 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+
+    //delete Token on logging out
+    public void deleteToken() {
+        SharedPreferences sharedPreferences = getSharedPreferences("org.example.foodie", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.clear();
+
+        editor.commit();
+    }
+
+    public void loadData() {
+
+
+    }
+
+
+    public interface DataLoadedListener {
+        public void onDataLoaded(ArrayList<String> data);
+
+    }
+
+
 
 }
