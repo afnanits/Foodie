@@ -2,32 +2,38 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="120dp"
-    android:layout_marginLeft="0dp">
+
+    android:layout_centerHorizontal="true"
+    android:layout_margin="15dp"
+    android:background="@color/actionbar_background">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"     android:background="@drawable/cardview_body"
+        android:layout_height="wrap_content"
+        android:background="@drawable/cardview_body"
 
 
         >
 
-    <ImageView
-        android:id="@+id/item_image"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginLeft="2dp"
-        android:padding="5dp"
-        android:src="@mipmap/ic_launcher"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="15dp"/>
+        <com.makeramen.roundedimageview.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/item_image"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:padding="5dp"
+            android:src="@mipmap/rest_ic"
+            app:riv_corner_radius="60dp"
+            app:riv_oval="true" />
 
-    <TextView
+
+        <TextView
         android:id="@+id/restaurantName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/item_image"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="12dp"
-
         android:text="lxz"
         android:textColor="#000"
         android:textSize="20sp"
@@ -50,10 +56,9 @@
         android:layout_height="wrap_content"
         android:textSize="15dp"
         android:id="@+id/rating"
-        android:textColor="#000"
-        android:layout_marginLeft="330dp"
+        android:background="@drawable/rounded_corner"
         android:layout_alignParentEnd="true"
-        android:background="@color/colorPrimary"
+        android:textColor="@color/actionbar_background"
         android:text="5.0"/>
     <TextView
         android:layout_width="wrap_content"

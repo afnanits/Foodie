@@ -16,7 +16,6 @@ public class Order {
     public long id;
     @SerializedName("user")
     public User user;
-
     public double totalPrice;
     @SerializedName("foods")
     List<Food> foodList;
