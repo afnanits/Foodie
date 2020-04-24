@@ -11,12 +11,14 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.example.foodie.models.Food;
 import org.example.foodie.models.Restaurant;
 import org.example.foodie.viewmodels.RestaurantsViewModel;
 
@@ -30,15 +32,14 @@ public class Home extends Fragment {
     List<org.example.foodie.models.Restaurant> restaurantList = new ArrayList<>();
 
     RestaurantsViewModel restaurantsViewModel;
-    RestaurantAdapter adapter;
+    public RestaurantAdapter adapter;
     View rootView;
-
+    List<Restaurant> restaurant = new ArrayList<>();
     ProgressBar loader;
     private  static  RecyclerView subrecview;
     public Home() {
 
     }
-
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //returning our layout file
         //change R.layout.yourlayoutfilename for each of your fragments
@@ -51,6 +52,7 @@ public class Home extends Fragment {
         restaurantsViewModel = ViewModelProviders.of(this).get(RestaurantsViewModel.class);
 
         restaurantsViewModel.init();
+
 
         restaurantsViewModel.getRestaurantRepository().observe(this, new Observer<List<Restaurant>>() {
             @Override
@@ -71,8 +73,18 @@ public class Home extends Fragment {
         //SETTING up recyclerview
         setupRecyclerView();
 
-
-
+       /* adapter.setOnItemCLickListener(new RestaurantAdapter.OnItemCLickListener() {
+            @Override
+            public void OnItemClick(int position) {
+                FragmentManager f_manager=getActivity().getSupportFragmentManager();
+                FoodsFragment.id=restaurant.get(position).getId();
+                Log.i("AFNAN",String.valueOf(restaurant.get(position).getId()));
+                f_manager.beginTransaction()
+                        .replace(R.id.flContent,new FoodsFragment())
+                        .commit();
+            }
+        });
+*/
         return rootView;
     }
 
@@ -91,7 +103,7 @@ public class Home extends Fragment {
 
         if (adapter == null) {
             subrecview.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-            ;
+
             subrecview.setAdapter(adapter);
 
         } else {
@@ -99,7 +111,6 @@ public class Home extends Fragment {
         }
 
     }
-
 
 
 }

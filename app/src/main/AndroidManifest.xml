@@ -13,6 +13,7 @@
         android:roundIcon="@drawable/applogo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+<<<<<<< HEAD
         <activity android:name=".RestaurantFoodAdd"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
@@ -32,6 +33,25 @@
             </intent-filter>
         </activity>
         <activity
+=======
+        <activity android:name=".FoodsActivity"></activity>
+        <activity
+            android:name=".RegisterActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".WelcomeActvity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+>>>>>>> ea03e8389ada8c349bc9301666f1b712ec17f914
             android:name=".MainActivity"
             android:screenOrientation="fullSensor"
             android:theme="@style/AppTheme.NoActionBar"></activity>

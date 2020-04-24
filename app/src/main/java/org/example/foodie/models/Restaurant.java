@@ -2,7 +2,6 @@ package org.example.foodie.models;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,8 +11,8 @@ import java.util.Map;
  *
  */
 public class Restaurant {
-    @SerializedName("rest_id")
-    public long id;
+    @SerializedName("id")
+    public String id;
 
     @SerializedName("name")
     public String name;
@@ -21,7 +20,7 @@ public class Restaurant {
     @SerializedName("contactNos")
     public List<String> contactNos;
     @SerializedName("foods")
-    public List<Food> menu = new ArrayList<>();
+    public List<Food> foods = new ArrayList<>();
     @SerializedName("address")
     String address;
     Map<Long, List<Food>> orderList = new HashMap<>();
@@ -29,46 +28,26 @@ public class Restaurant {
 
     //Constructor
 
-    Restaurant(long id, String name) {
-        this.id = id;
+    Restaurant(String name) {
         this.name = name;
     }
 
 
-    public Restaurant(List<String> contactNos, String address, List<Food> menu) {
+    public Restaurant(List<String> contactNos, String address) {
         this.contactNos = contactNos;
         this.address = address;
-        this.menu = menu;
     }
 
-    //Methods
-    public void changeMenu(List<Food> Menu) {
-        this.menu = Menu;
+    public String getId() {
+        return id;
     }
 
-    public void addFoodToMenu(Food food) {
-        menu.add(food);
-        food.restaurant = this;
+    public Map<Long, List<Food>> getOrderList() {
+        return orderList;
     }
 
-    public void deleteFoodFromMenu(Food food) {
-        menu.remove(food);
-    }
 
-    public List<Food> getMenu() {
-        return menu;
-    }
 
-    public void addOrder(Order order) throws Exception {
-        if (orderList.containsKey(order.id)) {
-            throw new Exception("Duplicate Order!");
-        } else {
-            orderList.put(order.id, order.foodList);
-        }
-        for (Food food : order.foodList) {
-            food.status = "Start Cooking";
-        }
-    }
 
     public void deleteOrder(Order order) {
         orderList.remove(order.id);
@@ -79,7 +58,10 @@ public class Restaurant {
         return name;
     }
 
-    /*    public int hashCode() {
+    public List<Food> getFoods() {
+        return foods;
+    }
+/*    public int hashCode() {
         return Long.hashCode(id);
     }
 
