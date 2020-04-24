@@ -42,6 +42,14 @@ public interface FoodieClient {
     //Connecting to endpoint to see all restaurants available
     @GET("restaurant")
     Call<List<Restaurant>> getRestaurant();
+<<<<<<
+
+    <HEAD
+        //Restaturant create
+    @POST("restaurant")
+            Call<ResponseUser> createRestaurant(@Body RestaurantCreate restaurantCreate);
+=======
+        >>>>>>>ea03e8389ada8c349bc9301666f1b712ec17f914
 
     @GET("restaurant/{id}")
     Call<Restaurant> getFood(@Path("id") String id);

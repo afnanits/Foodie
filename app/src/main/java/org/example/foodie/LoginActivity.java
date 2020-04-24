@@ -36,16 +36,14 @@ public class LoginActivity extends AppCompatActivity {
         spinner = (ProgressBar) findViewById(R.id.progressBar1);
         spinner.setVisibility(View.GONE);
 
-
         initWidgets();
-
 
         LoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CreateUser(String.valueOf(InputPhone.getText()), String.valueOf(InputPassword.getText()));
 
-                Log.i("Credentials", user.getEmail() + " " + user.getPassword());
+                //  Log.i("Credentials", user.getEmail() + " " + user.getPassword());
                 LoginUser(user);
             }
         });

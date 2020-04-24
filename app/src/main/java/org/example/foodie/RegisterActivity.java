@@ -34,7 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
     public EditText InputName, InputPhoneNumber, InputPassword, InputAddress, InputEmail,RestaurantIdInput;
-    public TextView adminPanelRegister, notadminPanelRegister;
+    TextView adminPanelRegister, notadminPanelRegister;
     final static String username="admin";
     final static  String password="password";
     SuperAdminUser superAdminUser;
