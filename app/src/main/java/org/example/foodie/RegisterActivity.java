@@ -9,14 +9,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.example.foodie.models.ResponseUser;
+import org.example.foodie.models.RestaurantCreate.RestaurantCreate;
+import org.example.foodie.models.RestaurantCreate.RestaurantUser;
+import org.example.foodie.models.RestaurantCreate.SuperAdminUser;
 import org.example.foodie.models.User;
 import org.example.foodie.org.example.foodie.apifetch.FoodieClient;
 import org.example.foodie.org.example.foodie.apifetch.ServiceGenerator;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,7 +33,14 @@ public class RegisterActivity extends AppCompatActivity {
     public Button CreateAccountButton;
 
     private ProgressBar progressBar;
-    public EditText InputName, InputPhoneNumber, InputPassword, InputAddress, InputEmail;
+    public EditText InputName, InputPhoneNumber, InputPassword, InputAddress, InputEmail,RestaurantIdInput;
+    TextView adminPanelRegister,notadminPanelRegister;
+    final static String username="admin";
+    final static  String password="password";
+    SuperAdminUser superAdminUser;
+    RestaurantUser restaurantUser;
+    RestaurantCreate restaurantCreate
+    List<String> contactNos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +70,25 @@ public class RegisterActivity extends AppCompatActivity {
             Log.i("ok", user.getToken());
             WelcomeActvity.getInstance().finish();
         }
+        adminPanelRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                contactNos.add(InputPhoneNumber.getText().toString()); //adding no to list as in api
+                notadminPanelRegister.setVisibility(View.VISIBLE);
+                InputEmail.setVisibility(View.INVISIBLE);
+                RestaurantIdInput.setVisibility(View.VISIBLE);
+                FoodieClient foodieClient = ServiceGenerator.createService(FoodieClient.class);
+                superAdminUser=new SuperAdminUser(username,password);
+                restaurantUser=new RestaurantUser(InputName.getText().toString(),
+                        RestaurantIdInput.getText().toString(),
+                        InputAddress.getText().toString(),
+                        InputPassword.getText().toString(),
+                        contactNos);
+                RestaurantCreate restaurantCreate=new RestaurantCreate(superAdminUser,restaurantUser);
+                foodieClient.createRestaurant(restaurantCreate);//just post::Response class for this should be made;
+
+            }
+        });
 
     }
 
@@ -119,6 +151,10 @@ public class RegisterActivity extends AppCompatActivity {
         InputPassword = (EditText) findViewById(R.id.register_password_input);
         InputEmail = (EditText) findViewById(R.id.register_email_input);
         InputAddress = (EditText) findViewById(R.id.register_address_input);
+        adminPanelRegister=(TextView)findViewById(R.id.admin_panel_link);
+        notadminPanelRegister=(TextView)findViewById(R.id.not_admin_panel_linkRegister);
+        RestaurantIdInput=(EditText)findViewById(R.id.register_restaurantId_input);
+
 
     }
 

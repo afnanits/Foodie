@@ -18,8 +18,6 @@ import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
-import retrofit2.http.Path;
-import retrofit2.http.Url;
 
 public interface FoodieClient {
     //Create user endpoint
@@ -42,10 +40,6 @@ public interface FoodieClient {
     //Connecting to endpoint to see all restaurants available
     @GET("restaurant")
     Call<List<Restaurant>> getRestaurant();
-
-    //get restaurant data by id
-    @GET("restaurant/{id}")
-    Call<Restaurant> getFood(@Path("id") String id);
 
 
 }
