@@ -167,7 +167,6 @@
         android:id="@+id/admin_panel_linkRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:layout_alignParentEnd="true"
         android:text="I'm an admin?"
         android:textColor="@color/colorPrimaryDark"
