@@ -1,19 +1,36 @@
 package org.example.foodie.models;
 
-public class Food {
-    public String name;
-    public Restaurant restaurant;
-    public String status;
-    public double price;
-    public int num = 0;
+import com.google.gson.annotations.SerializedName;
 
-    Food(String name, int price) {
-        this.name = name;
-        this.status = "No order";
+public class Food {
+    @SerializedName("foodid")
+    public Foodid foodid;
+    @SerializedName("price")
+    public String price;
+    @SerializedName("_id")
+    String _id;
+
+    public Food(Foodid foodid, String _id, String price) {
+        this.foodid = foodid;
+        this._id = _id;
         this.price = price;
     }
 
-    public boolean equals(Food food) {
-        return this.name.equals(food.name) && this.restaurant.equals(food.restaurant);
+    public Food(String price) {
+        //      this.name = name;
+        this.price = price;
+    }
+
+
+    public Food(Foodid foodid) {
+        this.foodid = foodid;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public Foodid getFoodid() {
+        return foodid;
     }
 }
