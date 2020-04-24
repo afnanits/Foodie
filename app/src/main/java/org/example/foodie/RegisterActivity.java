@@ -34,12 +34,12 @@ public class RegisterActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
     public EditText InputName, InputPhoneNumber, InputPassword, InputAddress, InputEmail,RestaurantIdInput;
-    TextView adminPanelRegister,notadminPanelRegister;
+    public TextView adminPanelRegister, notadminPanelRegister;
     final static String username="admin";
     final static  String password="password";
     SuperAdminUser superAdminUser;
     RestaurantUser restaurantUser;
-    RestaurantCreate restaurantCreate
+    RestaurantCreate restaurantCreate;
     List<String> contactNos;
 
     @Override
@@ -151,7 +151,7 @@ public class RegisterActivity extends AppCompatActivity {
         InputPassword = (EditText) findViewById(R.id.register_password_input);
         InputEmail = (EditText) findViewById(R.id.register_email_input);
         InputAddress = (EditText) findViewById(R.id.register_address_input);
-        adminPanelRegister=(TextView)findViewById(R.id.admin_panel_link);
+        adminPanelRegister = (TextView) findViewById(R.id.admin_panel_linkRegister);
         notadminPanelRegister=(TextView)findViewById(R.id.not_admin_panel_linkRegister);
         RestaurantIdInput=(EditText)findViewById(R.id.register_restaurantId_input);
 
