@@ -3,10 +3,8 @@ package org.example.foodie.org.example.foodie.apifetch;
 
 import com.google.gson.JsonObject;
 
-import org.example.foodie.models.Order;
 import org.example.foodie.models.ResponseUser;
 import org.example.foodie.models.Restaurant;
-import org.example.foodie.models.RestaurantCreate.RestaurantCreate;
 import org.example.foodie.models.User;
 import org.json.JSONObject;
 
@@ -20,7 +18,6 @@ import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
-import retrofit2.http.Path;
 
 public interface FoodieClient {
     //Create user endpoint
@@ -39,20 +36,16 @@ public interface FoodieClient {
     @GET("user/me")
     Call<ResponseUser> getData(@Header("Authorization") String token);
 
-    //endpoint to place order
-    @POST("user/order")
-    Call<Order> placeOrder(@Header("Authrization") String token, @Body Order order);
-
 
     //Connecting to endpoint to see all restaurants available
     @GET("restaurant")
     Call<List<Restaurant>> getRestaurant();
-
-    @GET("restaurant/{id}")
-    Call<Restaurant> getFood(@Path("id") String id);
-
+<<<<<<< HEAD
+    //Restaturant create
     @POST("restaurant")
     Call<ResponseUser> createRestaurant(@Body RestaurantCreate restaurantCreate);
+=======
+>>>>>>> ea03e8389ada8c349bc9301666f1b712ec17f914
 
 
 }

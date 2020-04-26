@@ -18,7 +18,8 @@ public class RestaurantFoodAdd extends AppCompatActivity {
         initWidget();
         Intent intent = getIntent();
         restaurantName.setText(intent.getStringExtra("name"));
-        restaurantInfo.setText(intent.getStringExtra("restId") + "\n" + intent.getStringExtra("address"));
+        restaurantInfo.setText(intent.getStringExtra("restId")+"\n"+intent.getStringExtra("address"));
+
 
 
     }

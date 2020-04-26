@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class Foodid {
+
     @SerializedName("name")
     public String name;
     @SerializedName("resaturants")
