@@ -2,7 +2,10 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:id="@+id/food_card"
+    android:layout_marginTop="@dimen/_20sdp">
 
 
     <RelativeLayout
@@ -33,6 +36,15 @@
             android:layout_toRightOf="@+id/food_image"
             android:text="price" />
 
+        <Button
+            android:id="@+id/addToCart"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:text="add to cart"
+            app:icon="@drawable/twotone_add_circle_outline_24" />
 
     </RelativeLayout>
 

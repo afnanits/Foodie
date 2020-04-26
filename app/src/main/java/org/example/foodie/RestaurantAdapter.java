@@ -3,6 +3,7 @@ package org.example.foodie;
 import android.content.Context;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -55,9 +57,21 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Cu
             public void onClick(View view) {
 
                 FoodsActivity.id = items.get(position).getId();
-                Log.i("AFNAN", String.valueOf(items.get(position).getId()));
+                SharedPreferences sharedPreferences = context.getSharedPreferences("org.example.foodie", Context.MODE_PRIVATE);
 
+                CartActivity.getPrefernce(sharedPreferences);
+
+                Log.i("AFNAN", String.valueOf(items.get(position).getId()));
+                if (!CartActivity.cartItems.isEmpty()) {//TODO:Build an alert dialog builder
+                    if (!FoodsActivity.rest_id.equals(FoodsActivity.id)) {
+                        Toast.makeText(context, "CART CONTAINS ITEMS FROM ANOTHER RESTAURANT",
+                                Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+                FoodsActivity.rest_id = FoodsActivity.id;
                 Intent i = new Intent(context, FoodsActivity.class);
+                CartActivity.saveData(sharedPreferences);
                 context.startActivity(i);
 
                 //   f_manager.popBackStack();

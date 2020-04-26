@@ -11,7 +11,8 @@ import java.util.List;
 
 
 public class Order {
-
+    @SerializedName("payment")
+    Payment payment;
     @SerializedName("_id")
     public long id;
     @SerializedName("user")
@@ -19,9 +20,45 @@ public class Order {
     public double totalPrice;
     @SerializedName("foods")
     List<Food> foodList;
+    @SerializedName("restaurantId")
+    String restaurantId;
     List<Restaurant> restaurantList;
 
-/*
+    public Order(Payment payment, List<Food> foodList, String restaurantId) {
+        this.payment = payment;
+        this.foodList = foodList;
+        this.restaurantId = restaurantId;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public List<Food> getFoodList() {
+        return foodList;
+    }
+
+    public String getRestaurantId() {
+        return restaurantId;
+    }
+
+    public List<Restaurant> getRestaurantList() {
+        return restaurantList;
+    }
+
+    /*
     foods	[...]
     restaurant	{...}
     user	{...}

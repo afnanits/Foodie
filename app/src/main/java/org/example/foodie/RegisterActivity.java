@@ -34,7 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
     public EditText InputName, InputPhoneNumber, InputPassword, InputAddress, InputEmail,RestaurantIdInput;
-    TextView adminPanelRegister, notadminPanelRegister;
+    public TextView adminPanelRegister, notadminPanelRegister;
     final static String username="admin";
     final static  String password="password";
     SuperAdminUser superAdminUser;
@@ -48,57 +48,60 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         progressBar = findViewById(R.id.progressBar3);
-
         progressBar.setVisibility(View.GONE);
         initWidgets();
+
         //  Log.i("Response", String.valueOf(user.getPhone()));
+
+        adminPanelRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //  contactNos.add(InputPhoneNumber.getText().toString()); //adding no to list as in api
+                adminPanelRegister.setVisibility(View.INVISIBLE);
+                notadminPanelRegister.setVisibility(View.VISIBLE);
+                InputEmail.setVisibility(View.INVISIBLE);
+                RestaurantIdInput.setVisibility(View.VISIBLE);
+
+            }
+        });
+        notadminPanelRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //  contactNos.add(InputPhoneNumber.getText().toString()); //adding no to list as in api
+
+                notadminPanelRegister.setVisibility(View.INVISIBLE);
+                adminPanelRegister.setVisibility(View.VISIBLE);
+                InputEmail.setVisibility(View.VISIBLE);
+                RestaurantIdInput.setVisibility(View.INVISIBLE);
+
+            }
+        });
 
         CreateAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-  /*              Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+  /*            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                 startActivity(intent);*/
-
-                CreateUser(InputName.getText().toString(), InputEmail.getText().toString(), InputPassword.getText().toString(), InputAddress.getText().toString(), "+91" + InputPhoneNumber.getText().toString());
-
-
-                RegisterUser(user);
-
+                if (adminPanelRegister.getVisibility() == View.VISIBLE) { //i.e. anew normal user is creating a ac
+                    CreateUser(InputName.getText().toString(), InputEmail.getText().toString(), InputPassword.getText().toString(), InputAddress.getText().toString(), "+91" + InputPhoneNumber.getText().toString());
+                    RegisterUser(user);
+                } else {  //for a restaturant user
+                    CreateRestaturantUser();
+                }
             }
         });
         if (user.getToken() != null) {
             Log.i("ok", user.getToken());
             WelcomeActvity.getInstance().finish();
         }
-        adminPanelRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                contactNos.add(InputPhoneNumber.getText().toString()); //adding no to list as in api
-                notadminPanelRegister.setVisibility(View.VISIBLE);
-                InputEmail.setVisibility(View.INVISIBLE);
-                RestaurantIdInput.setVisibility(View.VISIBLE);
-                FoodieClient foodieClient = ServiceGenerator.createService(FoodieClient.class);
-                superAdminUser=new SuperAdminUser(username,password);
-                restaurantUser=new RestaurantUser(InputName.getText().toString(),
-                        RestaurantIdInput.getText().toString(),
-                        InputAddress.getText().toString(),
-                        InputPassword.getText().toString(),
-                        contactNos);
-                RestaurantCreate restaurantCreate=new RestaurantCreate(superAdminUser,restaurantUser);
-                foodieClient.createRestaurant(restaurantCreate);//just post::Response class for this should be made;
 
-            }
-        });
 
     }
 
     public void RegisterUser(User user) {
 
         FoodieClient foodieClient = ServiceGenerator.createService(FoodieClient.class);
-
-
         Call<ResponseUser> call = foodieClient.Register(user);
-
         progressBar.setVisibility(View.VISIBLE);
         call.enqueue(new Callback<ResponseUser>() {
             @Override
@@ -108,7 +111,6 @@ public class RegisterActivity extends AppCompatActivity {
                 //Log.i("Response", String.valueOf(response.body().getToken()));
                 if (response.code() == 201) {
                     Toast.makeText(getApplicationContext(), "Success!", Toast.LENGTH_SHORT).show();
-
                     User use = response.body().getUser();
                     Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                     startActivity(intent);
@@ -116,11 +118,8 @@ public class RegisterActivity extends AppCompatActivity {
                     intent.putExtra("name", use.getName());
                     WelcomeActvity.token = response.body().getToken();
 
-
                     SharedPreferences sharedPreferences = getSharedPreferences("org.example.foodie", Context.MODE_PRIVATE);
-
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-
                     editor.putString("name", use.getName());
                     editor.putString("token", response.body().getToken());
                     editor.commit();
@@ -163,8 +162,39 @@ public class RegisterActivity extends AppCompatActivity {
         user = new User(name, email, password, address, phone);
     }
 
+    public void CreateRestaturantUser() {
 
+        FoodieClient foodieClient = ServiceGenerator.createService(FoodieClient.class);
+        superAdminUser = new SuperAdminUser(username, password);
+        restaurantUser = new RestaurantUser(InputName.getText().toString(),
+                RestaurantIdInput.getText().toString(),
+                InputAddress.getText().toString(),
+                InputPassword.getText().toString(),
+                contactNos);
+        RestaurantCreate restaurantCreate = new RestaurantCreate(superAdminUser, restaurantUser);
+        Call<ResponseUser> call2 = foodieClient.createRestaurant(restaurantCreate);//just post::Response class for this should be made;
+        progressBar.setVisibility(View.VISIBLE);
+        call2.enqueue(new Callback<ResponseUser>() {
+            @Override
+            public void onResponse(Call<ResponseUser> call, Response<ResponseUser> response) {
+                if (response.code() == 201) {
+                    Toast.makeText(getApplicationContext(), "Success!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(RegisterActivity.this, RestaurantFoodAdd.class);
+                    startActivity(intent);
+                    intent.putExtra("token", response.body().getToken());//for further functionality need this token id
+                    intent.putExtra("name", InputName.getText().toString());
+                    intent.putExtra("restId", RestaurantIdInput.getText().toString());
+                    intent.putExtra("address", InputAddress.getText().toString());
+                    progressBar.setVisibility(View.GONE);
+                    WelcomeActvity.getInstance().finish();
+                }
+            }
 
+            @Override
+            public void onFailure(Call<ResponseUser> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
-
+    }
 }
