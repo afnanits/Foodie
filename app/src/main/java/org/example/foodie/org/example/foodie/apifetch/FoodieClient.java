@@ -3,8 +3,11 @@ package org.example.foodie.org.example.foodie.apifetch;
 
 import com.google.gson.JsonObject;
 
+import org.example.foodie.models.Food;
+import org.example.foodie.models.Foodid;
 import org.example.foodie.models.ResponseUser;
 import org.example.foodie.models.Restaurant;
+import org.example.foodie.models.RestaurantCreate.RestaurantCreate;
 import org.example.foodie.models.User;
 import org.json.JSONObject;
 
@@ -40,12 +43,14 @@ public interface FoodieClient {
     //Connecting to endpoint to see all restaurants available
     @GET("restaurant")
     Call<List<Restaurant>> getRestaurant();
-<<<<<<< HEAD
+
     //Restaturant create
     @POST("restaurant")
     Call<ResponseUser> createRestaurant(@Body RestaurantCreate restaurantCreate);
-=======
->>>>>>> ea03e8389ada8c349bc9301666f1b712ec17f914
 
-
+    //Get all foods of restaurant
+    @GET("food")
+    Call<Restaurant> getFood(String id);
+    @POST("food")
+    Call<Foodid> postFood(@Header("Authorization") String token, @Body Food food);
 }
