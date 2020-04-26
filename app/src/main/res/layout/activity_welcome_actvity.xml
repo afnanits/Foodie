@@ -47,7 +47,7 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/input_design"
         android:padding="@dimen/_15sdp"
-        android:text="Already have an Account?Log in"
+        android:text="Already have an Account? Log in"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         android:textSize="@dimen/_14sdp"

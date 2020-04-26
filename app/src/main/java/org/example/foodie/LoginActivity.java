@@ -197,7 +197,7 @@ public class LoginActivity extends AppCompatActivity {
 
     //function for creating user
     public void CreateUser(String phone, String password) {
-        user = new User("91" + phone, password);
+        user = new User(phone, password);
     }
 
 }
