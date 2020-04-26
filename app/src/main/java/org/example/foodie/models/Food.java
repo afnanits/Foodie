@@ -5,12 +5,14 @@ import com.google.gson.annotations.SerializedName;
 public class Food {
     @SerializedName("name")
     public String foodName;
+
     @SerializedName("foodid")
     public Foodid foodid;
     @SerializedName("price")
     public String price;
     @SerializedName("_id")
     String _id;
+
 
     public Food(String foodName , String price) {
         this.foodName = foodName;

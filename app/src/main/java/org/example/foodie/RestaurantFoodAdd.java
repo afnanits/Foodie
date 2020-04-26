@@ -36,7 +36,7 @@ public class RestaurantFoodAdd extends AppCompatActivity {
         initWidget();
         Intent intent = getIntent();
         token=intent.getStringExtra("token");
-        Toast.makeText(RestaurantFoodAdd.this , token , Toast.LENGTH_LONG).show();
+       // Toast.makeText(RestaurantFoodAdd.this , token , Toast.LENGTH_LONG).show();
         restaurantName.setText(intent.getStringExtra("name"));
         restaurantInfo.setText(intent.getStringExtra("restId")+"\n"+intent.getStringExtra("address"));
         addFood.setOnClickListener(new View.OnClickListener() {
