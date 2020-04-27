@@ -10,8 +10,9 @@ public class Food {
     public Foodid foodid;
     @SerializedName("price")
     public String price;
-    @SerializedName("_id")
+    @SerializedName("id")
     String _id;
+    @SerializedName("quantity")
     int count;
 
 
@@ -40,6 +41,10 @@ public class Food {
         this.count = 0;
     }
 
+    public Food(String _id, int count) {
+        this._id = _id;
+        this.count = count;
+    }
 
     public Food(String price) {
         //      this.name = name;
@@ -69,6 +74,10 @@ public class Food {
     public void decreaseCount() {
         this.count = count - 1;
         setCount(this.count);
+    }
+
+    public String get_id() {
+        return _id;
     }
 
     public int getCount() {

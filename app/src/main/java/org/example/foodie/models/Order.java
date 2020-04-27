@@ -11,32 +11,36 @@ import java.util.List;
 
 
 public class Order {
+
+
+    public double totalPrice;
+    @SerializedName("user")
+    public User user;
+    @SerializedName("restaurant")
+    Restaurant restaurant;
     @SerializedName("payment")
     Payment payment;
     @SerializedName("_id")
-    public long id;
-    @SerializedName("user")
-    public User user;
-    public double totalPrice;
+    String _id;
     @SerializedName("foods")
-    List<Food> foodList;
+    List<OrderFood> foodList = new ArrayList<>();
+
     @SerializedName("restaurantId")
     String restaurantId;
+
     List<Restaurant> restaurantList;
 
-    public Order(Payment payment, List<Food> foodList, String restaurantId) {
+    public Order(String restaurantId, List<OrderFood> foodList, Payment payment) {
         this.payment = payment;
         this.foodList = foodList;
         this.restaurantId = restaurantId;
     }
 
+
     public Payment getPayment() {
         return payment;
     }
 
-    public long getId() {
-        return id;
-    }
 
     public User getUser() {
         return user;
@@ -46,7 +50,7 @@ public class Order {
         return totalPrice;
     }
 
-    public List<Food> getFoodList() {
+    public List<OrderFood> getFoodList() {
         return foodList;
     }
 
@@ -84,20 +88,3 @@ public class Order {
 }
 
 
-class Payment {
-
-    @SerializedName("method")
-    String method;
-
-    @SerializedName("status")
-    String status;
-
-    @SerializedName("total")
-    String total;
-
-    public Payment(String method, String status, String total) {
-        this.method = method;
-        this.status = status;
-        this.total = total;
-    }
-}

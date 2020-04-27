@@ -134,6 +134,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.CustomViewHold
             foodName = itemView.findViewById(R.id.food_name);
             addfood = itemView.findViewById(R.id.addFood);
             addToCart = itemView.findViewById(R.id.addToCart);
+
         }
     }
 

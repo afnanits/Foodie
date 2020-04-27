@@ -49,10 +49,7 @@ public class Restaurant {
 
 
 
-    public void deleteOrder(Order order) {
-        orderList.remove(order.id);
 
-    }
 
     public String getName() {
         return name;

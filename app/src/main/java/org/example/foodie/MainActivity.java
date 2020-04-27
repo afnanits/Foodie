@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (token != null) {
             Log.i("TOKEN", token);
-
+            if (WelcomeActvity.getInstance() != null)
             WelcomeActvity.getInstance().finish();
         }
 
@@ -298,7 +298,10 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
+        CartActivity.cartItems.clear();
+        FoodsActivity.rest_id = null;
         editor.clear();
+        editor.apply();
 
         editor.commit();
     }

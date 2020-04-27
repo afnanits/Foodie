@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,12 +25,21 @@ import com.google.gson.reflect.TypeToken;
 
 import org.example.foodie.models.Food;
 import org.example.foodie.models.Order;
+import org.example.foodie.models.OrderFood;
+import org.example.foodie.models.Payment;
+import org.example.foodie.models.ResponseUser;
+import org.example.foodie.org.example.foodie.apifetch.FoodieClient;
+import org.example.foodie.org.example.foodie.apifetch.ServiceGenerator;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CartActivity extends AppCompatActivity {
 
@@ -45,6 +55,9 @@ public class CartActivity extends AppCompatActivity {
     static List<Food> cartItems = new ArrayList<>();
     public SharedPreferences sharedPreferences;
     Set<String> foods;
+    public List<OrderFood> orderFood = new ArrayList<>();
+    public Payment payment;
+    public Order order;
 
     public static void getPrefernce(SharedPreferences sharedPreferences) {
 
@@ -133,17 +146,61 @@ public class CartActivity extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(CartActivity.this, "Coming Soon!", Toast.LENGTH_SHORT).show();
+                    //   Toast.makeText(CartActivity.this, "Coming Soon!", Toast.LENGTH_SHORT).show();
+                    CreateOrder();
+
+                    placeOrder(order);
                 }
             });
-
 
         }
     }
 
     public void placeOrder(Order order) {
 
+
+        FoodieClient foodieClient = ServiceGenerator.createService(FoodieClient.class);
+        Call<Order> call = foodieClient.placeOrder(WelcomeActvity.token, order);
+        Log.i("cartitems size: ", order.getRestaurantId() + " " + order.getFoodList().get(0).get_id());
+        ;
+        //    progressBar.setVisibility(View.VISIBLE);
+        call.enqueue(new Callback<Order>() {
+            @Override
+            public void onResponse(Call<Order> call, Response<Order> response) {
+
+                Log.i("Ordered: ", String.valueOf(response.message()));
+                if (response.code() == 200) {
+                    Toast.makeText(getApplicationContext(), "Order placed", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(CartActivity.this, MainActivity.class);
+                    cartItems.clear();
+                    FoodsActivity.rest_id = null;
+                    saveData(sharedPreferences);
+                    CartActivity.this.finish();
+                    startActivity(i);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Order> call, Throwable t) {
+                Log.i("Orderederr: ", t.toString());
+            }
+        });
+
+
     }
 
+
+    public void CreateOrder() {
+        for (int i = 0; i < cartItems.size(); i++) {
+
+            orderFood.add(new OrderFood(cartItems.get(i).getFoodid().get_id(), cartItems.get(i).getCount()));
+        }
+
+        payment = new Payment("COD", "UNPAID");
+
+        order = new Order(FoodsActivity.rest_id, orderFood, payment);
+
+
+    }
 
 }
