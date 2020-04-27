@@ -59,9 +59,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        progressBar = findViewById(R.id.progressBar2);
+//        progressBar = findViewById(R.id.progressBar2);
 
-        progressBar.setVisibility(View.GONE);
+        //      progressBar.setVisibility(View.GONE);
 
         Intent i = getIntent();
 
@@ -250,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         Call<Void> call = foodieClient.Logout(WelcomeActvity.token);
-        progressBar.setVisibility(View.VISIBLE);
+        //   progressBar.setVisibility(View.VISIBLE);
 
 
         call.enqueue(new Callback<Void>() {
@@ -265,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
 
                     WelcomeActvity.token = null;
                     Intent intent = new Intent(MainActivity.this, WelcomeActvity.class);
-                    progressBar.setVisibility(View.GONE);
+                    // progressBar.setVisibility(View.GONE);
 
 
                     startActivity(intent);
@@ -273,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
                     finish();
                     deleteToken();
                 } else {
-                    progressBar.setVisibility(View.GONE);
+                    //  progressBar.setVisibility(View.GONE);
 
                     Log.i("Response", response.raw().toString());
                     Toast.makeText(getApplicationContext(), response.raw().toString(), Toast.LENGTH_SHORT).show();

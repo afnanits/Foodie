@@ -40,6 +40,8 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.CustomView
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
+
+
         //set Elements here
 
     }

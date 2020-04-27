@@ -2,6 +2,7 @@
 <RelativeLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#fffff0">
 
 
@@ -17,5 +18,50 @@
         android:scrollbars="vertical"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/_35sdp"
         xmlns:android="http://schemas.android.com/apk/res/android" />
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerHorizontal="true">
+
+
+        <Button
+            android:id="@+id/restaurant_buton"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_5sdp"
+
+
+            android:layout_marginTop="@dimen/_minus10sdp"
+
+            android:text="Restaurant"
+
+            app:icon="@drawable/round_restaurant_black_18dp" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="2dp"
+            android:layout_height="37dp"
+            android:layout_below="@+id/cartList"
+            android:background="@android:color/darker_gray"
+            android:paddingTop="@dimen/_18sdp" />
+
+        <Button
+            android:id="@+id/food_button"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="2"
+            android:layout_marginTop="@dimen/_minus10sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:text="Food"
+            app:icon="@drawable/round_fastfood_black_18dp" />
+
+
+    </GridLayout>
+
 </RelativeLayout>

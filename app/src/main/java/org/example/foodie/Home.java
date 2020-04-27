@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -36,7 +37,9 @@ public class Home extends Fragment {
     View rootView;
     List<Restaurant> restaurant = new ArrayList<>();
     ProgressBar loader;
+    private static Button restaurantButton;
     private  static  RecyclerView subrecview;
+    int flag = 1;
     public Home() {
 
     }
@@ -46,28 +49,14 @@ public class Home extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
         subrecview=rootView.findViewById(R.id.my_recycler_view);
         loader = rootView.findViewById(R.id.loader);
+        restaurantButton = rootView.findViewById(R.id.restaurant_buton);
         loader.setVisibility(View.VISIBLE);
 
         //this section here is to get the data updated everytime there is a change in data base
-        restaurantsViewModel = ViewModelProviders.of(this).get(RestaurantsViewModel.class);
-
-        restaurantsViewModel.init();
+        if (flag == 1) showRestaurant();
 
 
-        restaurantsViewModel.getRestaurantRepository().observe(this, new Observer<List<Restaurant>>() {
-            @Override
-            public void onChanged(List<Restaurant> restaurants) {
 
-
-                if (restaurants != null) {
-                    adapter = new RestaurantAdapter(getActivity());
-                    adapter.setRestaurants(restaurants);
-                    subrecview.setAdapter(adapter);
-                }
-                loader.setVisibility(View.GONE);
-                adapter.notifyDataSetChanged();
-            }
-        });
 
 
         //SETTING up recyclerview
@@ -111,6 +100,32 @@ public class Home extends Fragment {
         }
 
     }
+
+    public void showRestaurant() {
+        restaurantsViewModel = ViewModelProviders.of(this).get(RestaurantsViewModel.class);
+
+        restaurantsViewModel.init();
+
+
+        restaurantsViewModel.getRestaurantRepository().observe(this, new Observer<List<Restaurant>>() {
+            @Override
+            public void onChanged(List<Restaurant> restaurants) {
+
+
+                if (restaurants != null) {
+                    adapter = new RestaurantAdapter(getActivity());
+                    adapter.setRestaurants(restaurants);
+                    subrecview.setAdapter(adapter);
+                }
+                loader.setVisibility(View.GONE);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+
+    }
+
+
 
 
 }
