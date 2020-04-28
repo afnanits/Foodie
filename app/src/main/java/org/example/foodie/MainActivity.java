@@ -88,11 +88,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
-
-
-
-
         // Set a Toolbar to replace the ActionBar.
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
