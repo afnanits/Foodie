@@ -29,4 +29,8 @@ public class Foodid {
     public String getName() {
         return name;
     }
+
+    public String get_id() {
+        return this._id;
+    }
 }

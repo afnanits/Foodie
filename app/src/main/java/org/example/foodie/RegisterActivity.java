@@ -82,13 +82,12 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
   /*            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                 startActivity(intent);*/
-             if (adminPanelRegister.getVisibility()==View.VISIBLE) { //i.e. a new normal user is creating a ac
+             if (adminPanelRegister.getVisibility()==View.VISIBLE) { //i.e. anew normal user is creating a ac
                  CreateUser(InputName.getText().toString(), InputEmail.getText().toString(), InputPassword.getText().toString(), InputAddress.getText().toString(), "+91" + InputPhoneNumber.getText().toString());
                  RegisterUser(user);
              } else {  //for a restaturant user
-
-                 CreateRestaturantUser();
-             }
+                  CreateRestaturantUser();
+               }
             }
         });
         if (user.getToken() != null) {
@@ -165,6 +164,7 @@ public class RegisterActivity extends AppCompatActivity {
 
    public  void CreateRestaturantUser()
    {
+
        FoodieClient foodieClient = ServiceGenerator.createService(FoodieClient.class);
        superAdminUser=new SuperAdminUser(username,password);
        restaurantUser=new RestaurantUser(InputName.getText().toString(),
@@ -181,16 +181,13 @@ public class RegisterActivity extends AppCompatActivity {
                if (response.code() == 201) {
                    Toast.makeText(getApplicationContext() , "Success!" , Toast.LENGTH_SHORT).show();
                    Intent intent = new Intent(RegisterActivity.this, RestaurantFoodAdd.class);
-
+                   startActivity(intent);
                    intent.putExtra("token", response.body().getToken());//for further functionality need this token id
                    intent.putExtra("name",InputName.getText().toString());
                    intent.putExtra("restId",RestaurantIdInput.getText().toString());
                    intent.putExtra("address",InputAddress.getText().toString());
-                   startActivity(intent);
                    progressBar.setVisibility(View.GONE);
-                   finish();
                    WelcomeActvity.getInstance().finish();
-
                }
            }
 

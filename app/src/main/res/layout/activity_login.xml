@@ -7,8 +7,8 @@
     tools:context=".LoginActivity">
     <ImageView
         android:id="@+id/app_logo"
-        android:layout_width="@dimen/_130sdp"
-        android:layout_height="@dimen/_130sdp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         android:src="@drawable/applogo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,14 +20,14 @@
         android:id="@+id/login_phone_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_10sdp"
+        android:layout_margin="10dp"
         android:background="@drawable/input_design"
         android:hint="Phone"
         android:inputType="phone"
-        android:padding="@dimen/_15sdp"
+        android:padding="15dp"
         android:textColor="@color/colorPrimaryDark"
         android:textColorHint="@color/colorPrimaryDark"
-        android:textSize="@dimen/_13sdp"
+        android:textSize="13dp"
         android:textStyle="bold"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -58,6 +58,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.531" />
 
+<<<<<<< HEAD
 
         <EditText
             android:id="@+id/login_password_input"
@@ -80,6 +81,28 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.647" />
 
+=======
+    <EditText
+        android:id="@+id/login_password_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_phone_input"
+        android:layout_margin="10dp"
+        android:background="@drawable/input_design"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:padding="15dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textColorHint="@color/colorPrimaryDark"
+        android:textSize="13dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.647" />
+>>>>>>> eb0d8f53d156c2bb6b32245bb251642168705e46
 
     <LinearLayout
         android:id="@+id/linear1"
@@ -102,14 +125,14 @@
         android:id="@+id/login_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_10sdp"
-        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:background="@drawable/buttons"
         android:padding="17sp"
         android:text="Log in"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/_15sdp"
+        android:textSize="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -120,7 +143,6 @@
     <!--        android:visibility="invisible"--><![CDATA[
         tools:layout_editor_absoluteX="224dp"
         tools:layout_editor_absoluteY="625dp" />
-
     ]]>
 
     <TextView
@@ -131,7 +153,7 @@
         android:layout_alignParentEnd="true"
         android:text="I'm an admin?"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="@dimen/_13sdp"
+        android:textSize="13sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -148,7 +170,7 @@
         android:layout_alignParentStart="true"
         android:text="I'm not an admin?"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="@dimen/_13sdp"
+        android:textSize="13sp"
         android:textStyle="bold"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"

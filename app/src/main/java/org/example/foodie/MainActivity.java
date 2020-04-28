@@ -11,7 +11,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,17 +19,14 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.material.internal.NavigationMenuPresenter;
 import com.google.android.material.navigation.NavigationView;
 
-import org.example.foodie.models.ResponseUser;
 import org.example.foodie.org.example.foodie.apifetch.FoodieClient;
 import org.example.foodie.org.example.foodie.apifetch.ServiceGenerator;
 
@@ -63,9 +59,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        progressBar = findViewById(R.id.progressBar2);
+//        progressBar = findViewById(R.id.progressBar2);
 
-        progressBar.setVisibility(View.GONE);
+        //      progressBar.setVisibility(View.GONE);
 
         Intent i = getIntent();
 
@@ -83,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (token != null) {
             Log.i("TOKEN", token);
-
+            if (WelcomeActvity.getInstance() != null)
             WelcomeActvity.getInstance().finish();
         }
 
@@ -147,7 +143,9 @@ public class MainActivity extends AppCompatActivity {
                 mDrawer.openDrawer(GravityCompat.START);
                 return true;
             case R.id.action_cart:
-                Toast.makeText(this,"Cart empty!",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, CartActivity.class);
+                //getSupportFragmentManager().popBackStackImmediate("frag_back",0);
+                this.startActivity(intent);
 
         }
 
@@ -183,6 +181,11 @@ public class MainActivity extends AppCompatActivity {
                 id=true;
                 fragmentClass = Home.class;
                 break;
+            case R.id.cart:
+                Intent intent = new Intent(MainActivity.this, CartActivity.class);
+                //getSupportFragmentManager().popBackStackImmediate("frag_back",0);
+                this.startActivity(intent);
+                return;
             case R.id.logout:
                 LogoutUser();
                 return;
@@ -242,7 +245,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         Call<Void> call = foodieClient.Logout(WelcomeActvity.token);
-        progressBar.setVisibility(View.VISIBLE);
+        //   progressBar.setVisibility(View.VISIBLE);
 
 
         call.enqueue(new Callback<Void>() {
@@ -257,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
 
                     WelcomeActvity.token = null;
                     Intent intent = new Intent(MainActivity.this, WelcomeActvity.class);
-                    progressBar.setVisibility(View.GONE);
+                    // progressBar.setVisibility(View.GONE);
 
 
                     startActivity(intent);
@@ -265,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
                     finish();
                     deleteToken();
                 } else {
-                    progressBar.setVisibility(View.GONE);
+                    //  progressBar.setVisibility(View.GONE);
 
                     Log.i("Response", response.raw().toString());
                     Toast.makeText(getApplicationContext(), response.raw().toString(), Toast.LENGTH_SHORT).show();
@@ -290,7 +293,10 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
+        CartActivity.cartItems.clear();
+        FoodsActivity.rest_id = null;
         editor.clear();
+        editor.apply();
 
         editor.commit();
     }

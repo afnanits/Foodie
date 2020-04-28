@@ -1,83 +1,182 @@
 package org.example.foodie;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.example.foodie.models.Food;
-import org.example.foodie.models.Foodid;
-import org.example.foodie.org.example.foodie.apifetch.FoodieClient;
-import org.example.foodie.org.example.foodie.apifetch.ServiceGenerator;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.google.android.material.navigation.NavigationView;
 
 public class RestaurantFoodAdd extends AppCompatActivity {
-    TextView restaurantName, restaurantInfo;
-    ImageView restaurantImage;
-    EditText foodName,foodprice;
-    Button addFood;
-    String token;
-    View progressBar;
+    private TextView restaurantName, restaurantInfo;
+    private ImageView restaurantImage;
+
+
+    //DrawerLayout drawer;
+    //NavigationView navigationView;
+    FrameLayout frameLayout;
+    ActionBarDrawerToggle toggle;
+    private DrawerLayout mDrawer;
+    private Toolbar toolbar;
+    private NavigationView nvDrawer;
+    private ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_food_add);
-        progressBar = findViewById(R.id.progressBarAddFood);
-        progressBar.setVisibility(View.GONE);
-        initWidget();
-        Intent intent = getIntent();
-        token=intent.getStringExtra("token");
-       // Toast.makeText(RestaurantFoodAdd.this , token , Toast.LENGTH_LONG).show();
-        restaurantName.setText(intent.getStringExtra("name"));
-        restaurantInfo.setText(intent.getStringExtra("restId")+"\n"+intent.getStringExtra("address"));
-        addFood.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PostFoodToRestaurantList();
-            }
-        });
+        // Set a Toolbar to replace the ActionBar.
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        // This will display an Up icon (<-), we will replace it with hamburger later
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // Find our drawer view
+        mDrawer = (DrawerLayout) findViewById(R.id.rest_drawer_layout);
+
+        nvDrawer = (NavigationView) findViewById(R.id.navView);
+
+
+        View headerView = nvDrawer.getHeaderView(0);
+
+
+        // Setup drawer view
+        setupDrawerContent(nvDrawer);
+        //FragmentManager fragmentManager=new F;
+
+        frameLayout = (FrameLayout) findViewById(R.id.restaurantLayout);
+        //View headerLayout = nvDrawer.inflateHeaderView(R.layout.nav_header);
+        toggle = new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+
+        try {
+            fragmentManager.beginTransaction().replace(R.id.restaurantLayout, ResturantHome.class.newInstance(), "Home");
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
+
+
+        //set default fragment
+        loadFragment(new ResturantHome());
+
     }
 
-    public void initWidget() {
-        restaurantName = (TextView) findViewById(R.id.restaurantName);
-        restaurantInfo = (TextView) findViewById(R.id.restaurantInfo);
-        restaurantImage = (ImageView) findViewById(R.id.restaurantProfile);
-        foodName=(EditText)findViewById(R.id.foodName);
-        foodprice=(EditText)findViewById(R.id.foodPrice);
-        addFood=(Button)findViewById(R.id.addFood);
-    }
-    public void PostFoodToRestaurantList()
-    {
-        FoodieClient foodieClient = ServiceGenerator.createService(FoodieClient.class);
-        Food food=new Food(foodName.getText().toString(),foodprice.getText().toString());
-        Call<Foodid> foodCall=foodieClient.postFood(token,food);
-        progressBar.setVisibility(View.VISIBLE);
-        foodCall.enqueue(new Callback<Foodid>() {
-            @Override
-            public void onResponse(Call<Foodid> call , Response<Foodid> response) {
-                if(response.code()==201){
-                    Toast.makeText(RestaurantFoodAdd.this ,response.body().getName() +" added Successfully.", Toast.LENGTH_SHORT).show();
-                    foodName.setText("");
-                    foodprice.setText("");
-                    addFood.setText("Add More To Food List");
-                    progressBar.setVisibility(View.INVISIBLE);
-                }
-            }
 
-            @Override
-            public void onFailure(Call<Foodid> call , Throwable t) {
-                Toast.makeText(RestaurantFoodAdd.this ,t.getMessage() , Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.INVISIBLE);
-            }
-        });
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // The action bar home/up action should open or close the drawer.
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mDrawer.openDrawer(GravityCompat.START);
+                return true;
+
+        }
+
+
+        return super.onOptionsItemSelected(item);
     }
+
+    private void setupDrawerContent(NavigationView navigationView) {
+
+
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        selectDrawerItem(menuItem);
+                        return true;
+                    }
+                });
+
+    }
+
+    public void selectDrawerItem(MenuItem menuItem) {
+        // Create a new fragment and specify the fragment to show based on nav item clicked
+        Fragment fragment = null;
+        boolean id = false;
+        Class fragmentClass = null;
+        switch (menuItem.getItemId()) {
+
+            /*case R.id.childDetails:
+                fragmentClass = ChildDetails.class;
+                break;*/
+
+            case R.id.home:
+                id = true;
+                fragmentClass = ResturantHome.class;
+                break;
+            default:
+                fragmentClass = ResturantHome.class;
+        }
+
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+
+//else {
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack("fragBack").commit();
+
+        if (!id) {
+        }
+        getFragmentManager().popBackStack();
+        // Highlight the selected item has been done by NavigationView
+        menuItem.setChecked(true);
+        // Set action bar title
+        setTitle(menuItem.getTitle());
+        // Close the navigation drawer
+        mDrawer.closeDrawers();
+    }
+
+    public void loadFragment(Fragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.restaurantLayout, fragment);
+        transaction.commit();
+    }
+
+    /*  @Override
+      public boolean onCreateOptionsMenu(Menu menu) {
+          MenuInflater inflater = getMenuInflater();
+
+          inflater.inflate(R.menu.main_activity_bar, menu);
+          return super.onCreateOptionsMenu(menu);
+      }
+  */
+    @Override
+    public void onBackPressed() {
+
+        finish();
+        super.onBackPressed();
+    }
+
+
 }

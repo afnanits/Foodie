@@ -38,25 +38,6 @@ public class Orders extends Fragment {
         rootView = inflater.inflate(R.layout.orders_fragment, container, false);
 
 
-        mViewModel = ViewModelProviders.of(this).get(OrdersViewModel.class);
-
-        mViewModel.init();
-
-        mViewModel.getRestaurantRepository().observe(this, new Observer<ResponseUser>() {
-            @Override
-            public void onChanged(ResponseUser responseUser) {
-
-
-                if (responseUser.getOrders() != null) {
-                    adapter = new OrdersAdapter(getActivity());
-                    adapter.setRestaurants(responseUser.getOrders());
-                    recyclerView.setAdapter(adapter);
-                }
-                adapter.notifyDataSetChanged();
-            }
-        });
-
-
         return inflater.inflate(R.layout.orders_fragment, container, false);
     }
 
