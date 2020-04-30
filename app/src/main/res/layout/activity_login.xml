@@ -41,7 +41,6 @@
         android:id="@+id/login_restaurant_id_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:layout_margin="@dimen/_10sdp"
         android:background="@drawable/input_design"
         android:hint="Restaurant Id"
@@ -59,6 +58,30 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.531" />
 
+<<<<<<< HEAD
+
+        <EditText
+            android:id="@+id/login_password_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/login_phone_input"
+            android:layout_margin="@dimen/_10sdp"
+            android:background="@drawable/input_design"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:padding="@dimen/_15sdp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textColorHint="@color/colorPrimaryDark"
+            android:textSize="@dimen/_13sdp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.52"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.647" />
+
+=======
     <EditText
         android:id="@+id/login_password_input"
         android:layout_width="match_parent"
@@ -79,6 +102,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.647" />
+>>>>>>> eb0d8f53d156c2bb6b32245bb251642168705e46
 
     <LinearLayout
         android:id="@+id/linear1"
