@@ -1,6 +1,7 @@
 package org.example.foodie;
 
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,10 +16,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -27,6 +28,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
 
+import org.example.foodie.models.Restaurant;
 import org.example.foodie.org.example.foodie.apifetch.FoodieClient;
 import org.example.foodie.org.example.foodie.apifetch.ServiceGenerator;
 
@@ -36,7 +38,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RestaurantAdapter.RestaurantAdapterListener {
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
     private NavigationView nvDrawer;
@@ -45,8 +47,10 @@ public class MainActivity extends AppCompatActivity {
     //NavigationView navigationView;
     FrameLayout frameLayout;
     ActionBarDrawerToggle toggle;
-    public static String user;
     //Toolbar toolbar;
+    public static SearchView searchView;
+    public static String user;
+    static MainActivity mainActiivity;
 
     // Make sure to be using androidx.appcompat.app.ActionBarDrawerToggle version.
     private ActionBarDrawerToggle drawerToggle;
@@ -80,13 +84,8 @@ public class MainActivity extends AppCompatActivity {
         if (token != null) {
             Log.i("TOKEN", token);
             if (WelcomeActvity.getInstance() != null)
-            WelcomeActvity.getInstance().finish();
+                WelcomeActvity.getInstance().finish();
         }
-
-
-
-
-
 
 
         // Set a Toolbar to replace the ActionBar.
@@ -121,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         try {
-            fragmentManager.beginTransaction().replace(R.id.flContent,Home.class.newInstance(),"Home");
+            fragmentManager.beginTransaction().replace(R.id.flContent, Home.class.newInstance(), "Home");
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {
@@ -143,6 +142,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // The action bar home/up action should open or close the drawer.
 
+        if (item.getItemId() == R.id.action_search) {
+            return true;
+        }
+
         switch (item.getItemId()) {
             case android.R.id.home:
                 mDrawer.openDrawer(GravityCompat.START);
@@ -157,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
     private void setupDrawerContent(NavigationView navigationView) {
 
 
@@ -174,16 +178,16 @@ public class MainActivity extends AppCompatActivity {
     public void selectDrawerItem(MenuItem menuItem) {
         // Create a new fragment and specify the fragment to show based on nav item clicked
         Fragment fragment = null;
-        boolean id=false;
+        boolean id = false;
         Class fragmentClass = null;
-        switch(menuItem.getItemId()) {
+        switch (menuItem.getItemId()) {
 
             /*case R.id.childDetails:
                 fragmentClass = ChildDetails.class;
                 break;*/
 
             case R.id.home:
-                id=true;
+                id = true;
                 fragmentClass = Home.class;
                 break;
             case R.id.cart:
@@ -194,7 +198,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.logout:
                 LogoutUser();
                 return;
-
 
 
             default:
@@ -215,8 +218,9 @@ public class MainActivity extends AppCompatActivity {
 //else {
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack("fragBack").commit();
 
-        if(!id){
-        }getFragmentManager().popBackStack();
+        if (!id) {
+        }
+        getFragmentManager().popBackStack();
         // Highlight the selected item has been done by NavigationView
         menuItem.setChecked(true);
         // Set action bar title
@@ -224,22 +228,66 @@ public class MainActivity extends AppCompatActivity {
         // Close the navigation drawer
         mDrawer.closeDrawers();
     }
+
     public void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.flContent, fragment);
         transaction.commit();
     }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
 
         inflater.inflate(R.menu.main_activity_bar, menu);
-        return super.onCreateOptionsMenu(menu);
+
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchView = (SearchView) menu.findItem(R.id.action_search)
+                .getActionView();
+        searchView.setSearchableInfo(searchManager
+                .getSearchableInfo(getComponentName()));
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+//searchView.setSubmitButtonEnabled(false);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // filter recycler view when query submitted
+                Home.adapter.getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+                // filter recycler view when text is changed
+                Home.adapter.getFilter().filter(query);
+                return false;
+            }
+        });
+        return true;
+
+
+
+
+
+
     }
 
+    private void setItemsVisibility(Menu menu, MenuItem exception, boolean visible) {
+        for (int i = 0; i < menu.size(); ++i) {
+            MenuItem item = menu.getItem(i);
+            if (item != exception) item.setVisible(visible);
+        }
+    }
     @Override
     public void onBackPressed() {
 
+        if (!searchView.isIconified()) {
+            searchView.setIconified(true);
+            return;
+        }
         finish();
         super.onBackPressed();
     }
@@ -256,7 +304,6 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-
 
 
                 // Log.i("Response", String.valueOf(response.body().getToken()));
@@ -306,14 +353,10 @@ public class MainActivity extends AppCompatActivity {
         editor.commit();
     }
 
-    public void loadData() {
 
-
-    }
-
-
-    public interface DataLoadedListener {
-        public void onDataLoaded(ArrayList<String> data);
+    @Override
+    public void OnRestaurantSelected(Restaurant restaurant) {
+        Toast.makeText(getApplicationContext(), "Selected " + restaurant.getName(), Toast.LENGTH_SHORT);
 
     }
 

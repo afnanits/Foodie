@@ -84,6 +84,7 @@ public class FoodsActivity extends AppCompatActivity {
 
         // This will display an Up icon (<-), we will replace it with hamburger later
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitle(getIntent().getStringExtra("restaurant name"));
 
 
 
