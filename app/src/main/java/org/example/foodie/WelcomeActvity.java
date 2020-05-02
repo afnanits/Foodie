@@ -43,7 +43,7 @@ public class WelcomeActvity extends AppCompatActivity {
         if (token != null) {
             Intent i = new Intent(this, MainActivity.class);
             i.putExtra("token", token);
-
+            // welcomeActvity.finish();
 
             startActivity(i);
         }

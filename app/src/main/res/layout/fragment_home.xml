@@ -2,12 +2,11 @@
 <RelativeLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-<<<<<<< HEAD
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
     android:background="#ffffff">
-=======
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#fffff0">
->>>>>>> eb0d8f53d156c2bb6b32245bb251642168705e46
 
     <!-- <include
          layout="@layout/design_bar"

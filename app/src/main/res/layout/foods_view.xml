@@ -4,8 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
-    android:id="@+id/food_card"
-    android:layout_marginTop="@dimen/_20sdp">
+    android:id="@+id/food_card">
 
 
     <RelativeLayout
@@ -36,15 +35,74 @@
             android:layout_toRightOf="@+id/food_image"
             android:text="price" />
 
-        <Button
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/itemButton"
+            android:layout_margin="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginLeft="@dimen/_117sdp"
+            android:background="@drawable/layout_bg"
+            android:visibility="gone"
+
+            >
+
+            <ImageView
+                android:id="@+id/addItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/twotone_add_circle_outline_24" />
+
+            <ImageView
+                android:id="@+id/removeItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:src="@drawable/twotone_remove_circle_outline_24" />
+
+            <TextView
+                android:id="@+id/itemQuantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_minus35sdp"
+                android:text="Quantity" />
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/addToCart"
-            style="@style/Widget.MaterialComponents.Button.Icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:layout_margin="10dp"
+            android:layout_marginLeft="@dimen/_117sdp"
+            android:animateLayoutChanges="true"
+            android:background="@drawable/layout_bg">
+
+            <ImageView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/twotone_add_circle_outline_24" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="7dp"
+                android:text="AddItem" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="300dp"
+            android:layout_height="2dp"
+            android:layout_below="@+id/cartList"
+            android:layout_centerHorizontal="true"
+            android:background="@android:color/darker_gray"
             android:layout_alignParentBottom="true"
-            android:text="add to cart"
-            app:icon="@drawable/twotone_add_circle_outline_24" />
+            android:paddingTop="@dimen/_18sdp" />
+
 
     </RelativeLayout>
 

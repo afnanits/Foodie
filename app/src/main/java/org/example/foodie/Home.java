@@ -4,11 +4,8 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -39,9 +36,7 @@ public class Home extends Fragment {
     View rootView;
     List<Restaurant> restaurant = new ArrayList<>();
     ProgressBar loader;
-    private static Button restaurantButton;
     private  static  RecyclerView subrecview;
-    int flag = 1;
     public Home() {
 
     }
@@ -51,14 +46,30 @@ public class Home extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
         subrecview=rootView.findViewById(R.id.my_recycler_view);
         loader = rootView.findViewById(R.id.loader);
-
         loader.setVisibility(View.VISIBLE);
 
         //this section here is to get the data updated everytime there is a change in data base
-        showRestaurant();
+        restaurantsViewModel = ViewModelProviders.of(this).get(RestaurantsViewModel.class);
+
+        restaurantsViewModel.init();
 
 
+        restaurantsViewModel.getRestaurantRepository().observe(this, new Observer<List<Restaurant>>() {
+            @Override
+            public void onChanged(List<Restaurant> restaurants) {
 
+
+                if (restaurants != null) {
+                    adapter = new RestaurantAdapter(getActivity());
+                    adapter.setRestaurant(restaurants);
+                    subrecview.setAdapter(adapter);
+                }
+                loader.setVisibility(View.GONE);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+        subrecview.setLayoutManager(new GridLayoutManager(getActivity(), 1));
         //SETTING up recyclerview
         setupRecyclerView();
 
@@ -92,6 +103,7 @@ public class Home extends Fragment {
 
         if (adapter == null) {
             subrecview.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+
             subrecview.setAdapter(adapter);
 
         } else {
@@ -100,33 +112,5 @@ public class Home extends Fragment {
 
     }
 
-    public void showRestaurant() {
-        restaurantsViewModel = ViewModelProviders.of(this).get(RestaurantsViewModel.class);
-
-        restaurantsViewModel.init();
-
-
-        restaurantsViewModel.getRestaurantRepository().observe(this, new Observer<List<Restaurant>>() {
-            @Override
-            public void onChanged(List<Restaurant> restaurants) {
-
-
-                if (restaurants != null) {
-                    adapter = new RestaurantAdapter(getActivity());
-                    adapter.setRestaurant(restaurants);
-                    subrecview.setAdapter(adapter);
-                }
-                Log.i("REST: ", String.valueOf(adapter));
-                loader.setVisibility(View.GONE);
-                adapter.notifyDataSetChanged();
-            }
-        });
-
-
-    }
-
-
 
 }
-
-

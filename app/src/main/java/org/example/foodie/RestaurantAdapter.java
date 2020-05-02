@@ -1,12 +1,15 @@
 package org.example.foodie;
 
+import android.app.AlertDialog;
 import android.content.Context;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +41,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Cu
     private List<Restaurant> items;
     private List<Restaurant> filteredResturants;
     private RestaurantAdapterListener listener;
+    AlertDialog.Builder restAlert;
 
     public RestaurantAdapter(Context context) {
         this.context = context;
@@ -56,7 +60,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Cu
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
         holder.restaurantName.setText(filteredResturants.get(position).getName());
 
-
+        Log.i("Filtered: ", filteredResturants.get(0).getName());
         holder.restaurantCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,20 +70,52 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Cu
 
                 CartActivity.getPrefernce(sharedPreferences);
 
+                restAlert = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.AlertDialogCustom));
                 Log.i("AFNAN", String.valueOf(filteredResturants.get(position).getId()));
                 if (!CartActivity.cartItems.isEmpty()) {//TODO:Build an alert dialog builder
                     if (!FoodsActivity.rest_id.equals(FoodsActivity.id)) {
-                        Toast.makeText(context, "CART CONTAINS ITEMS FROM ANOTHER RESTAURANT",
-                                Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                }
-                FoodsActivity.rest_id = FoodsActivity.id;
-                Intent i = new Intent(context, FoodsActivity.class);
-                CartActivity.saveData(sharedPreferences);
-                i.putExtra("restaurant name", filteredResturants.get(position).getName());
-                context.startActivity(i);
+                      /*  Toast.makeText(context, "CART CONTAINS ITEMS FROM ANOTHER RESTAURANT",
+                                Toast.LENGTH_SHORT).show();*/
+                        restAlert.setTitle("Cart contains items from other restaurants");
+                        restAlert.setMessage("Empty Cart to continue").setCancelable(true).setPositiveButton("Empty Cart",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
 
+                                        CartActivity.cartItems.clear();
+                                        CartActivity.saveData(sharedPreferences);
+                                        Intent intent = new Intent(context, FoodsActivity.class);
+                                        CartActivity.saveData(sharedPreferences);
+                                        intent.putExtra("restaurant name", filteredResturants.get(position).getName());
+                                        context.startActivity(intent);
+
+
+                                    }
+                                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                return;
+                            }
+                        });
+
+                        AlertDialog alert = restAlert.create();
+                        alert.show();
+
+                    } else {
+                        FoodsActivity.rest_id = FoodsActivity.id;
+                        Intent i = new Intent(context, FoodsActivity.class);
+                        CartActivity.saveData(sharedPreferences);
+                        i.putExtra("restaurant name", filteredResturants.get(position).getName());
+                        context.startActivity(i);
+                    }
+
+                } else {
+                    FoodsActivity.rest_id = FoodsActivity.id;
+                    Intent i = new Intent(context, FoodsActivity.class);
+                    CartActivity.saveData(sharedPreferences);
+                    i.putExtra("restaurant name", filteredResturants.get(position).getName());
+                    context.startActivity(i);
+                }
 
                 //   f_manager.popBackStack();
             }
@@ -161,7 +197,6 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Cu
             super(view);
             itemImage = view.findViewById(R.id.item_image);
             restaurantName = view.findViewById(R.id.restaurantName);
-            rating = view.findViewById(R.id.rating);
             eta = view.findViewById(R.id.eta);
             description = view.findViewById(R.id.description);
             restaurantCard = view.findViewById(R.id.restaurant);

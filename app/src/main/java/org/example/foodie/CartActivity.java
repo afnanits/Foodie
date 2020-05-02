@@ -1,5 +1,6 @@
 package org.example.foodie;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -12,6 +13,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ActionProvider;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -142,7 +144,6 @@ public class CartActivity extends AppCompatActivity {
             }
             //   setupRecyclerView();
 
-//TODO:place order throuugh button
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -154,6 +155,7 @@ public class CartActivity extends AppCompatActivity {
             });
 
         }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public void placeOrder(Order order) {
@@ -176,7 +178,7 @@ public class CartActivity extends AppCompatActivity {
                     FoodsActivity.rest_id = null;
                     saveData(sharedPreferences);
                     CartActivity.this.finish();
-                    startActivity(i);
+                    CartActivity.super.onBackPressed();
                 }
             }
 
@@ -185,6 +187,7 @@ public class CartActivity extends AppCompatActivity {
                 Log.i("Orderederr: ", t.toString());
             }
         });
+
 
 
     }
@@ -203,4 +206,23 @@ public class CartActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                super.onBackPressed();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        finish();
+    }
 }

@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +25,7 @@ import org.example.foodie.models.Foodid;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.Delayed;
 
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.CustomViewHolder> {
 
@@ -68,11 +71,46 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.CustomViewHold
         Food currItem = items.get(position);
 
 
-       /* if(!CartActivity.cartItems.isEmpty()){
-            if(isPresent(CartActivity.cartItems,currItem.getFoodid().getName())){
-                holder.countFood.setText(CartActivity.cartItems.get(pos).getCount());
+        if (!CartActivity.cartItems.isEmpty() && isPresent(CartActivity.cartItems, currItem.getFoodid().getName())) {
+            holder.itemButton.setVisibility(View.VISIBLE);
+            holder.addToCart.setVisibility(View.GONE);
+
+            holder.itemQuantity.setText(String.valueOf(CartActivity.cartItems.get(pos).getCount()));
+        }
+        holder.addfood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "Item added to cart", Toast.LENGTH_SHORT).show();
+                CartActivity.cartItems.get(pos).addCount();
+                //CartActivity.cartItems.add(items.get(position));
+                CartActivity.saveData(sharedPreferences);
+                holder.itemQuantity.setText(String.valueOf(CartActivity.cartItems.get(pos).getCount()));
+
             }
-        }*/
+        });
+
+        holder.removeFood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                Toast.makeText(context, "Item added to cart", Toast.LENGTH_SHORT).show();
+
+                CartActivity.cartItems.get(pos).decreaseCount();
+
+
+                if (CartActivity.cartItems.get(pos).getCount() == 0) {
+                    CartActivity.cartItems.remove(CartActivity.cartItems.get(pos));
+                    holder.addToCart.setVisibility(View.VISIBLE);
+                    holder.itemButton.setVisibility(View.GONE);
+                } else {
+                    holder.itemQuantity.setText(String.valueOf(CartActivity.cartItems.get(pos).getCount()));
+
+                }
+                CartActivity.saveData(sharedPreferences);
+
+            }
+        });
 
 
         holder.addToCart.setOnClickListener(new View.OnClickListener() {
@@ -80,16 +118,17 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.CustomViewHold
             public void onClick(View view) {
 
 
-                if (isPresent(CartActivity.cartItems, currItem.getFoodid().getName())) {
-                    Toast.makeText(context, "Already in cart", Toast.LENGTH_SHORT).show();
-                } else {
                     Toast.makeText(context, "Item added to cart", Toast.LENGTH_SHORT).show();
 
                     items.get(position).addCount();
                     CartActivity.cartItems.add(items.get(position));
                     CartActivity.saveData(sharedPreferences);
+                holder.itemButton.setVisibility(View.VISIBLE);
+                holder.addToCart.setVisibility(View.GONE);
+                holder.itemQuantity.setText("1");
+
+
                 }
-            }
         });
 
 
@@ -124,9 +163,12 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.CustomViewHold
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
 
-        private Button addToCart;
+        private LinearLayout addToCart;
         private TextView foodName;
         private ImageView addfood;
+        private ImageView removeFood;
+        private LinearLayout itemButton;
+        private TextView itemQuantity;
 
 
         public CustomViewHolder(@NonNull View itemView) {
@@ -134,8 +176,12 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.CustomViewHold
             foodName = itemView.findViewById(R.id.food_name);
             addfood = itemView.findViewById(R.id.addFood);
             addToCart = itemView.findViewById(R.id.addToCart);
-
+            addfood = itemView.findViewById(R.id.addItem);
+            removeFood = itemView.findViewById(R.id.removeItem);
+            itemButton = itemView.findViewById(R.id.itemButton);
+            itemQuantity = itemView.findViewById(R.id.itemQuantity);
         }
     }
+
 
 }

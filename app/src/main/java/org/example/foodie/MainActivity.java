@@ -200,29 +200,12 @@ public class MainActivity extends AppCompatActivity implements RestaurantAdapter
                 return;
 
 
-            default:
-                fragmentClass = Home.class;
-        }
 
-        try {
-            fragment = (Fragment) fragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
 
-        // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-
-//else {
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack("fragBack").commit();
-
-        if (!id) {
-        }
-        getFragmentManager().popBackStack();
         // Highlight the selected item has been done by NavigationView
-        menuItem.setChecked(true);
+        menuItem.setChecked(false);
         // Set action bar title
         setTitle(menuItem.getTitle());
         // Close the navigation drawer
@@ -249,14 +232,14 @@ public class MainActivity extends AppCompatActivity implements RestaurantAdapter
         searchView.setSearchableInfo(searchManager
                 .getSearchableInfo(getComponentName()));
         searchView.setMaxWidth(Integer.MAX_VALUE);
-//searchView.setSubmitButtonEnabled(false);
+        searchView.setSubmitButtonEnabled(false);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 // filter recycler view when query submitted
-                Home.adapter.getFilter().filter(query);
-                return false;
+
+                return true;
             }
 
             @Override
@@ -284,11 +267,11 @@ public class MainActivity extends AppCompatActivity implements RestaurantAdapter
     @Override
     public void onBackPressed() {
 
+
         if (!searchView.isIconified()) {
             searchView.setIconified(true);
             return;
         }
-        finish();
         super.onBackPressed();
     }
 
