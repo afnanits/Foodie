@@ -124,7 +124,7 @@ public class RestaurantFoodAdd extends AppCompatActivity {
                 fragmentClass = ChildDetails.class;
                 break;*/
 
-            case R.id.home:
+            case R.id.rest_home:
                 id = true;
                 fragmentClass = ResturantHome.class;
                 break;
@@ -144,7 +144,7 @@ public class RestaurantFoodAdd extends AppCompatActivity {
 
 
 //else {
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack("fragBack").commit();
+        fragmentManager.beginTransaction().replace(R.id.restaurantLayout, fragment).addToBackStack("fragBack").commit();
 
         if (!id) {
         }

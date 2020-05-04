@@ -60,6 +60,6 @@ public interface FoodieClient {
     @POST("restaurant")
     Call<ResponseUser> createRestaurant(@Body RestaurantCreate restaurantCreate);
 
-
-    Call<ResponseRestaurantUser> logInRestaurant(RestaurantUser restaurantUser);
+    @POST("restaurant/login")
+    Call<ResponseRestaurantUser> logInRestaurant(@Body RestaurantUser restaurantUser);
 }

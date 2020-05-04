@@ -178,6 +178,8 @@ public class RegisterActivity extends AppCompatActivity {
        call2.enqueue(new Callback<ResponseUser>() {
            @Override
            public void onResponse(Call<ResponseUser> call , Response<ResponseUser> response) {
+
+
                if (response.code() == 201) {
                    Toast.makeText(getApplicationContext() , "Success!" , Toast.LENGTH_SHORT).show();
                    Intent intent = new Intent(RegisterActivity.this, RestaurantFoodAdd.class);
@@ -188,6 +190,8 @@ public class RegisterActivity extends AppCompatActivity {
                    intent.putExtra("address",InputAddress.getText().toString());
                    progressBar.setVisibility(View.GONE);
                    WelcomeActvity.getInstance().finish();
+               } else {
+                   Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_SHORT).show();
                }
            }
 
