@@ -7,6 +7,8 @@ import org.example.foodie.models.Order;
 import org.example.foodie.models.ResponseUser;
 import org.example.foodie.models.Restaurant;
 import org.example.foodie.models.RestaurantCreate.RestaurantCreate;
+import org.example.foodie.models.RestaurantLogIn.ResponseRestaurantUser;
+import org.example.foodie.models.RestaurantLogIn.RestaurantUser;
 import org.example.foodie.models.User;
 import org.json.JSONObject;
 
@@ -59,4 +61,5 @@ public interface FoodieClient {
     Call<ResponseUser> createRestaurant(@Body RestaurantCreate restaurantCreate);
 
 
+    Call<ResponseRestaurantUser> logInRestaurant(RestaurantUser restaurantUser);
 }
