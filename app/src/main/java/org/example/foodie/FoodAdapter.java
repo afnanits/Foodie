@@ -80,6 +80,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.CustomViewHold
         holder.addfood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isPresent(CartActivity.cartItems, currItem.getFoodid().getName());
                 Toast.makeText(context, "Item added to cart", Toast.LENGTH_SHORT).show();
                 CartActivity.cartItems.get(pos).addCount();
                 //CartActivity.cartItems.add(items.get(position));
@@ -93,6 +94,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.CustomViewHold
             @Override
             public void onClick(View view) {
 
+                isPresent(CartActivity.cartItems, currItem.getFoodid().getName());
 
                 Toast.makeText(context, "Item added to cart", Toast.LENGTH_SHORT).show();
 
@@ -103,11 +105,15 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.CustomViewHold
                     CartActivity.cartItems.remove(CartActivity.cartItems.get(pos));
                     holder.addToCart.setVisibility(View.VISIBLE);
                     holder.itemButton.setVisibility(View.GONE);
+                    if (CartActivity.cartItems.isEmpty()) FoodsActivity.rest_id = null;
+                    CartActivity.saveData(sharedPreferences);
+
+
+
                 } else {
                     holder.itemQuantity.setText(String.valueOf(CartActivity.cartItems.get(pos).getCount()));
 
                 }
-                CartActivity.saveData(sharedPreferences);
 
             }
         });
@@ -125,7 +131,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.CustomViewHold
                     CartActivity.saveData(sharedPreferences);
                 holder.itemButton.setVisibility(View.VISIBLE);
                 holder.addToCart.setVisibility(View.GONE);
-                holder.itemQuantity.setText("1");
+                holder.itemQuantity.setText(String.valueOf(1));
 
 
                 }

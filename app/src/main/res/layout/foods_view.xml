@@ -44,6 +44,8 @@
             android:layout_alignParentEnd="true"
             android:layout_marginLeft="@dimen/_117sdp"
             android:background="@drawable/layout_bg"
+
+            android:foreground="@drawable/custom_ripple"
             android:visibility="gone"
 
             >
@@ -77,7 +79,9 @@
             android:layout_margin="10dp"
             android:layout_marginLeft="@dimen/_117sdp"
             android:animateLayoutChanges="true"
-            android:background="@drawable/layout_bg">
+            android:background="@drawable/layout_bg"
+
+            android:foreground="@drawable/custom_ripple">
 
             <ImageView
 
