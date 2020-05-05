@@ -129,6 +129,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.CustomViewHold
                     items.get(position).addCount();
                     CartActivity.cartItems.add(items.get(position));
                     CartActivity.saveData(sharedPreferences);
+
                 holder.itemButton.setVisibility(View.VISIBLE);
                 holder.addToCart.setVisibility(View.GONE);
                 holder.itemQuantity.setText(String.valueOf(1));
@@ -171,6 +172,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.CustomViewHold
 
         private LinearLayout addToCart;
         private TextView foodName;
+        private TextView price;
         private ImageView addfood;
         private ImageView removeFood;
         private LinearLayout itemButton;
@@ -179,6 +181,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.CustomViewHold
 
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
+
             foodName = itemView.findViewById(R.id.food_name);
             addfood = itemView.findViewById(R.id.addFood);
             addToCart = itemView.findViewById(R.id.addToCart);

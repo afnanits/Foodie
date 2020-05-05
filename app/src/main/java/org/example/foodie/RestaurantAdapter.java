@@ -85,6 +85,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Cu
                                         CartActivity.cartItems.clear();
                                         CartActivity.saveData(sharedPreferences);
                                         Intent intent = new Intent(context, FoodsActivity.class);
+                                        FoodsActivity.rest_id = FoodsActivity.id;
                                         CartActivity.saveData(sharedPreferences);
                                         intent.putExtra("restaurant name", filteredResturants.get(position).getName());
                                         context.startActivity(intent);
@@ -195,7 +196,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Cu
 
         public CustomViewHolder(View view) {
             super(view);
-            itemImage = view.findViewById(R.id.item_image);
+            //  itemImage = view.findViewById(R.id.item_image);
             restaurantName = view.findViewById(R.id.restaurantName);
             eta = view.findViewById(R.id.eta);
             description = view.findViewById(R.id.description);

@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/_10sdp"
+    android:foreground="@drawable/custom_ripple"
     android:paddingTop="@dimen/_20sdp">
 
 
@@ -45,9 +47,16 @@
         android:id="@+id/itemPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_245sdp"
+        android:layout_marginLeft="@dimen/_240sdp"
         android:text="price" />
 
+    <ImageView
+        android:id="@+id/removeFromCart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_280sdp"
+        android:layout_marginTop="@dimen/_minus4sdp"
+        android:src="@drawable/outline_delete_black_18dp" />
 
 </RelativeLayout>
 

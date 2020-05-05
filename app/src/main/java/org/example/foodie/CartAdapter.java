@@ -53,6 +53,34 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CustomViewHold
         holder.itemQuantity.setText(String.valueOf(count));
         holder.itemPrice.setText(String.valueOf(Integer.parseInt(items.get(position).getPrice()) * count));
 
+        Food currItem = items.get(position);
+        isPresent(CartActivity.cartItems, currItem.getFoodid().getName());
+
+
+        holder.adddFood.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Food currItem = items.get(position);
+                if (isPresent(CartActivity.cartItems, currItem.getFoodid().getName())) {
+
+                    CartActivity.cartItems.get(pos).addCount();
+                    //items.get(position).addCount();
+                }
+
+                updateTotal();
+
+                CartActivity.saveData(sharedPreferences);
+                holder.itemQuantity.setText(String.valueOf(items.get(position).getCount()));
+                holder.itemPrice.setText(String.valueOf(Integer.parseInt(items.get(position).getPrice()) * items.get(position).getCount()));
+
+                return false;
+            }
+        });
+
+
+
+
+
         holder.adddFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,9 +97,49 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CustomViewHold
                 CartActivity.saveData(sharedPreferences);
                 holder.itemQuantity.setText(String.valueOf(items.get(position).getCount()));
                 holder.itemPrice.setText(String.valueOf(Integer.parseInt(items.get(position).getPrice()) * items.get(position).getCount()));
-
+                return;
             }
 
+        });
+
+
+        holder.removeFood.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Food currItem = items.get(position);
+                if (isPresent(CartActivity.cartItems, currItem.getFoodid().getName())) {
+
+                    CartActivity.cartItems.get(pos).decreaseCount();
+                    //items.get(position).addCount();
+                    if (CartActivity.cartItems.get(pos).getCount() <= 0) {
+                        CartActivity.cartItems.remove(CartActivity.cartItems.get(pos));
+                        CartActivity.saveData(sharedPreferences);
+                        updateTotal();
+                        if (CartActivity.cartItems.isEmpty()) {
+                            CartActivity.cartView.setVisibility(View.GONE);
+                            CartActivity.emptyCart.setVisibility(View.VISIBLE);
+
+                        }
+
+
+                        notifyDataSetChanged();
+                        Log.i("working fine: ", "yes");
+                        return false;
+                    }
+
+
+                    updateTotal();
+
+                    CartActivity.saveData(sharedPreferences);
+                    holder.itemQuantity.setText(String.valueOf(items.get(position).getCount()));
+                    holder.itemPrice.setText(String.valueOf(Integer.parseInt(items.get(position).getPrice()) * items.get(position).getCount()));
+
+                    return true;
+                }
+
+
+                return false;
+            }
         });
 
         holder.removeFood.setOnClickListener(new View.OnClickListener() {
@@ -105,6 +173,24 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CustomViewHold
                 holder.itemQuantity.setText(String.valueOf(items.get(position).getCount()));
                 holder.itemPrice.setText(String.valueOf(Integer.parseInt(items.get(position).getPrice()) * items.get(position).getCount()));
 
+
+            }
+        });
+
+
+        holder.removeFromCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CartActivity.cartItems.remove(CartActivity.cartItems.get(pos));
+                CartActivity.saveData(sharedPreferences);
+                updateTotal();
+                if (CartActivity.cartItems.isEmpty()) {
+                    CartActivity.cartView.setVisibility(View.GONE);
+                    CartActivity.emptyCart.setVisibility(View.VISIBLE);
+
+                }
+                notifyDataSetChanged();
+                return;
 
             }
         });
@@ -151,6 +237,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CustomViewHold
 
         private TextView itemName;
         private TextView itemPrice;
+        private ImageView removeFromCart;
         private TextView itemQuantity;
         private ImageView adddFood;
         private ImageView removeFood;
@@ -158,6 +245,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CustomViewHold
 
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
+            removeFromCart = itemView.findViewById(R.id.removeFromCart);
             itemName = itemView.findViewById(R.id.itemName);
             itemPrice = itemView.findViewById(R.id.itemPrice);
             itemQuantity = itemView.findViewById(R.id.itemQuantity);
