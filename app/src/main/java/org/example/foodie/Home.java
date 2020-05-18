@@ -1,11 +1,15 @@
 package org.example.foodie;
 
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -36,56 +40,23 @@ public class Home extends Fragment {
     View rootView;
     List<Restaurant> restaurant = new ArrayList<>();
     ProgressBar loader;
+    public static ImageView noConnection;
     private  static  RecyclerView subrecview;
     public Home() {
 
     }
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //returning our layout file
-        //change R.layout.yourlayoutfilename for each of your fragments
-        rootView = inflater.inflate(R.layout.fragment_home, container, false);
-        subrecview=rootView.findViewById(R.id.my_recycler_view);
-        loader = rootView.findViewById(R.id.loader);
-        loader.setVisibility(View.VISIBLE);
 
-        //this section here is to get the data updated everytime there is a change in data base
-        restaurantsViewModel = ViewModelProviders.of(this).get(RestaurantsViewModel.class);
-
-        restaurantsViewModel.init();
-
-
-        restaurantsViewModel.getRestaurantRepository().observe(this, new Observer<List<Restaurant>>() {
-            @Override
-            public void onChanged(List<Restaurant> restaurants) {
-
-
-                if (restaurants != null) {
-                    adapter = new RestaurantAdapter(getActivity());
-                    adapter.setRestaurant(restaurants);
-                    subrecview.setAdapter(adapter);
-                }
-                loader.setVisibility(View.GONE);
-                adapter.notifyDataSetChanged();
+    public static boolean isConnectionAvailable(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+            NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();
+            if (netInfo != null && netInfo.isConnected()
+                    && netInfo.isConnectedOrConnecting()
+                    && netInfo.isAvailable()) {
+                return true;
             }
-        });
-
-        subrecview.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-        //SETTING up recyclerview
-        setupRecyclerView();
-
-       /* adapter.setOnItemCLickListener(new RestaurantAdapter.OnItemCLickListener() {
-            @Override
-            public void OnItemClick(int position) {
-                FragmentManager f_manager=getActivity().getSupportFragmentManager();
-                FoodsFragment.id=restaurant.get(position).getId();
-                Log.i("AFNAN",String.valueOf(restaurant.get(position).getId()));
-                f_manager.beginTransaction()
-                        .replace(R.id.flContent,new FoodsFragment())
-                        .commit();
-            }
-        });
-*/
-        return rootView;
+        }
+        return false;
     }
 
 
@@ -110,6 +81,51 @@ public class Home extends Fragment {
             adapter.notifyDataSetChanged();
         }
 
+    }
+
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        //returning our layout file
+        //change R.layout.yourlayoutfilename for each of your fragments
+        rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        subrecview=rootView.findViewById(R.id.my_recycler_view);
+        loader = rootView.findViewById(R.id.loader);
+        loader.setVisibility(View.VISIBLE);
+
+        noConnection = rootView.findViewById(R.id.noConnection);
+
+        if (isConnectionAvailable(getActivity())) {
+
+            noConnection.setVisibility(View.GONE);
+            loader.setVisibility(View.VISIBLE);
+            //this section here is to get the data updated everytime there is a change in data base
+            restaurantsViewModel = ViewModelProviders.of(this).get(RestaurantsViewModel.class);
+
+            restaurantsViewModel.init();
+
+            restaurantsViewModel.getRestaurantRepository().observe(this, new Observer<List<Restaurant>>() {
+                @Override
+                public void onChanged(List<Restaurant> restaurants) {
+
+
+                    if (restaurants != null) {
+                        adapter = new RestaurantAdapter(getActivity());
+                        adapter.setRestaurant(restaurants);
+                        subrecview.setAdapter(adapter);
+                    }
+                    loader.setVisibility(View.GONE);
+                    adapter.notifyDataSetChanged();
+                }
+            });
+
+            subrecview.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+            //SETTING up recyclerview
+            setupRecyclerView();
+        } else {
+            loader.setVisibility(View.GONE);
+            noConnection.setVisibility(View.VISIBLE);
+        }
+
+        return rootView;
     }
 
 

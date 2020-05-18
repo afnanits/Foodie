@@ -16,14 +16,16 @@ public class Restaurant {
 
     @SerializedName("name")
     public String name;
-
-    @SerializedName("contactNos")
+    // @SerializedName("contactNos")
     public List<String> contactNos;
     @SerializedName("foods")
     public List<Food> foods = new ArrayList<>();
     @SerializedName("address")
     String address;
+    @SerializedName("image")
+    String image;
     Map<Long, List<Food>> orderList = new HashMap<>();
+
 
 
     //Constructor
@@ -57,6 +59,10 @@ public class Restaurant {
 
     public List<Food> getFoods() {
         return foods;
+    }
+
+    public String getImage() {
+        return image;
     }
 /*    public int hashCode() {
         return Long.hashCode(id);

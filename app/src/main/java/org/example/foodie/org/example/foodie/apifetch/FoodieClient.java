@@ -4,6 +4,7 @@ package org.example.foodie.org.example.foodie.apifetch;
 import com.google.gson.JsonObject;
 
 import org.example.foodie.models.Order;
+import org.example.foodie.models.ResponseRestaurant;
 import org.example.foodie.models.ResponseUser;
 import org.example.foodie.models.Restaurant;
 import org.example.foodie.models.RestaurantCreate.RestaurantCreate;
@@ -18,6 +19,7 @@ import java.util.Objects;
 import okhttp3.MediaType;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
@@ -53,7 +55,7 @@ public interface FoodieClient {
     Call<List<Restaurant>> getRestaurant();
 
     @GET("restaurant/{id}")
-    Call<Restaurant> getFood(@Path("id") String id);
+    Call<ResponseRestaurant> getFood(@Path("id") String id);
 
 
     //Restaturant create
@@ -62,4 +64,6 @@ public interface FoodieClient {
 
     @POST("restaurant/login")
     Call<ResponseRestaurantUser> logInRestaurant(@Body RestaurantUser restaurantUser);
+
+
 }

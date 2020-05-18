@@ -52,7 +52,8 @@ public class FoodsActivity extends AppCompatActivity {
         //  foodsViewModel=ViewModelProviders.of(this).get(FoodsViewModel.class);
 
         mViewModel.init();
-
+        adapter = new FoodAdapter(FoodsActivity.this);
+        Log.i("Restarant id:", rest_id);
         mViewModel.getFoodRepository().observe(this, new Observer<List<Food>>() {
             @Override
             public void onChanged(List<Food> foods) {

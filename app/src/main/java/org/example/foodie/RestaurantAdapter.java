@@ -8,6 +8,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -61,6 +64,16 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Cu
         holder.restaurantName.setText(filteredResturants.get(position).getName());
 
         Log.i("Filtered: ", filteredResturants.get(0).getName());
+
+        String encodedImage = items.get(position).getImage();
+
+        if (encodedImage != null) {
+            byte[] image = Base64.decode(encodedImage, Base64.DEFAULT);
+            Bitmap i = BitmapFactory.decodeByteArray(image, 0, image.length);
+            holder.imageView.setImageBitmap(i);
+        }
+
+
         holder.restaurantCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -192,7 +205,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Cu
         private TextView restaurantName;
         private TextView eta, rating, description;
         private CardView restaurantCard;
-
+        private ImageView imageView;
 
         public CustomViewHolder(View view) {
             super(view);
@@ -201,7 +214,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Cu
             eta = view.findViewById(R.id.eta);
             description = view.findViewById(R.id.description);
             restaurantCard = view.findViewById(R.id.restaurant);
-
+            imageView = view.findViewById(R.id.rest_icon);
 
         }
     }

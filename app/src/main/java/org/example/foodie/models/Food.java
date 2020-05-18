@@ -2,6 +2,8 @@ package org.example.foodie.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Food {
     @SerializedName("name")
     public String foodName;
@@ -87,5 +89,4 @@ public class Food {
     public void setCount(int count) {
         this.count = count;
     }
-
 }

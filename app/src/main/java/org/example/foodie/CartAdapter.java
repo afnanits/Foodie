@@ -51,7 +51,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CustomViewHold
         int count = items.get(position).getCount();
         holder.itemName.setText(items.get(position).getFoodid().getName());
         holder.itemQuantity.setText(String.valueOf(count));
-        holder.itemPrice.setText(String.valueOf(Integer.parseInt(items.get(position).getPrice()) * count));
+        holder.itemPrice.setText(String.valueOf(Integer.parseInt(String.valueOf(items.get(position).getPrice())) * count));
 
         Food currItem = items.get(position);
         isPresent(CartActivity.cartItems, currItem.getFoodid().getName());
@@ -71,7 +71,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CustomViewHold
 
                 CartActivity.saveData(sharedPreferences);
                 holder.itemQuantity.setText(String.valueOf(items.get(position).getCount()));
-                holder.itemPrice.setText(String.valueOf(Integer.parseInt(items.get(position).getPrice()) * items.get(position).getCount()));
+                holder.itemPrice.setText(String.valueOf(Integer.parseInt(String.valueOf(items.get(position).getPrice())) * items.get(position).getCount()));
 
                 return false;
             }
@@ -96,7 +96,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CustomViewHold
 
                 CartActivity.saveData(sharedPreferences);
                 holder.itemQuantity.setText(String.valueOf(items.get(position).getCount()));
-                holder.itemPrice.setText(String.valueOf(Integer.parseInt(items.get(position).getPrice()) * items.get(position).getCount()));
+                holder.itemPrice.setText(String.valueOf(Integer.parseInt(String.valueOf(items.get(position).getPrice())) * items.get(position).getCount()));
                 return;
             }
 
@@ -132,7 +132,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CustomViewHold
 
                     CartActivity.saveData(sharedPreferences);
                     holder.itemQuantity.setText(String.valueOf(items.get(position).getCount()));
-                    holder.itemPrice.setText(String.valueOf(Integer.parseInt(items.get(position).getPrice()) * items.get(position).getCount()));
+                    holder.itemPrice.setText(String.valueOf(Integer.parseInt(String.valueOf(items.get(position).getPrice())) * items.get(position).getCount()));
 
                     return true;
                 }
@@ -171,7 +171,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CustomViewHold
 
                 CartActivity.saveData(sharedPreferences);
                 holder.itemQuantity.setText(String.valueOf(items.get(position).getCount()));
-                holder.itemPrice.setText(String.valueOf(Integer.parseInt(items.get(position).getPrice()) * items.get(position).getCount()));
+                holder.itemPrice.setText(String.valueOf(Integer.parseInt(String.valueOf(items.get(position).getPrice())) * items.get(position).getCount()));
 
 
             }
@@ -181,6 +181,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CustomViewHold
         holder.removeFromCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isPresent(CartActivity.cartItems, currItem.getFoodid().getName());
                 CartActivity.cartItems.remove(CartActivity.cartItems.get(pos));
                 CartActivity.saveData(sharedPreferences);
                 updateTotal();
@@ -222,10 +223,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CustomViewHold
     public void updateTotal() {
         int total = 0;
         for (int i = 0; i < CartActivity.cartItems.size(); i++) {
-            total = total + Integer.parseInt(CartActivity.cartItems.get(i).getPrice()) * CartActivity.cartItems.get(i).getCount();
+            total = total + Integer.parseInt(String.valueOf(CartActivity.cartItems.get(i).getPrice())) * CartActivity.cartItems.get(i).getCount();
         }
 
-        CartActivity.totalPrice.setText(String.valueOf(total));
+        CartActivity.totalPrice.setText("₹ " + String.valueOf(total));
     }
 
 

@@ -14,6 +14,10 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="actionBarTabTextStyle">@font/my_custom_font</item>
+        <item name="alertDialogTheme">
+            @style/MaterialAlertDialog.MaterialComponents.Title.Icon.CenterStacked
+        </item>
         <item name="actionBarSize">67dp</item>
     </style>
 

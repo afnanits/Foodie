@@ -38,6 +38,13 @@ public class OrderFood {
 //setCount(this.count);
     }
 
+    public int getPrice() {
+        return price;
+    }
+
+    public int getCount() {
+        return count;
+    }
 
     public String get_id() {
         return _id;

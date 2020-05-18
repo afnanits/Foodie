@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -23,6 +24,8 @@ import java.util.List;
 
 public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.CustomViewHolder> {
     private Context context;
+
+    FoodListAdapter adapter;
     private List<Order> items;
     //  private ArrayList<NEWS> subjects;
 
@@ -42,6 +45,19 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.CustomView
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
 
 
+        holder.total.setText(items.get(position).getPayment().getTotal());
+
+        holder.restaurantName.setText(items.get(position).getRestaurant().getName());
+
+
+        adapter = new FoodListAdapter(context);
+        adapter.setFood(items.get(position).getFoodList());
+
+        holder.recyclerView.setLayoutManager(new GridLayoutManager(context, 1));
+        holder.recyclerView.setAdapter(adapter);
+
+
+
         //set Elements here
 
     }
@@ -51,22 +67,26 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.CustomView
         return items.size();
     }
 
-    public void setRestaurants(List<Order> orders) {
+    public void setOrders(List<Order> orders) {
         this.items = orders;
         notifyDataSetChanged();
     }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
-        /*   private ImageView itemImage;
-           private TextView restaurantName;
-           private TextView eta,rating,description;*/
+
+        private TextView restaurantName;
+        private TextView total;
+        private RecyclerView recyclerView;
+
+
         public CustomViewHolder(View view) {
             super(view);
-        /*    itemImage = view.findViewById(R.id.item_image);
+
             restaurantName = view.findViewById(R.id.restaurantName);
-            rating=view.findViewById(R.id.rating);
-            eta=view.findViewById(R.id.eta);
-            description=view.findViewById(R.id.description);*/
+            total = view.findViewById(R.id.total);
+            recyclerView = view.findViewById(R.id.foodList);
+
+
 
         }
     }

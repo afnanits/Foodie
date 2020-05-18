@@ -33,6 +33,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="20dp"
             android:layout_toRightOf="@+id/food_image"
+            android:id="@+id/priceOfFood"
             android:text="price" />
 
 

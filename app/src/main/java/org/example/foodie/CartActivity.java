@@ -7,6 +7,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,6 +23,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.google.android.gms.common.internal.Constants;
+import com.google.android.gms.wallet.PaymentsClient;
+import com.google.android.gms.wallet.Wallet;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -34,6 +38,7 @@ import org.example.foodie.org.example.foodie.apifetch.FoodieClient;
 import org.example.foodie.org.example.foodie.apifetch.ServiceGenerator;
 
 import java.lang.reflect.Type;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -55,11 +60,12 @@ public class CartActivity extends AppCompatActivity {
     public static RecyclerView cartList;
     public static CartAdapter adapter;
     static List<Food> cartItems = new ArrayList<>();
+    public static Order order;
     public SharedPreferences sharedPreferences;
     Set<String> foods;
-    public List<OrderFood> orderFood = new ArrayList<>();
-    public Payment payment;
-    public Order order;
+    public static List<OrderFood> orderFood = new ArrayList<>();
+    public static Payment payment;
+
 
     public static void getPrefernce(SharedPreferences sharedPreferences) {
 
@@ -97,6 +103,22 @@ public class CartActivity extends AppCompatActivity {
         editor.commit();
     }
 
+    public static void CreateOrder(Payment payment) {
+        for (int i = 0; i < cartItems.size(); i++) {
+            BigInteger decimal = new BigInteger(cartItems.get(i).getFoodid().get_id(), 16);
+
+            Log.i("Answer", decimal.toString(16));
+
+
+            orderFood.add(new OrderFood(decimal.toString(16), cartItems.get(i).getCount()));
+        }
+
+
+        order = new Order(FoodsActivity.rest_id, orderFood, payment);
+
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,11 +138,11 @@ public class CartActivity extends AppCompatActivity {
 
         getPrefernce(sharedPreferences);
         for (int i = 0; i < CartActivity.cartItems.size(); i++) {
-            CartActivity.total = CartActivity.total + Integer.parseInt(CartActivity.cartItems.get(i).getPrice()) * CartActivity.cartItems.get(i).getCount();
+            CartActivity.total = CartActivity.total + Integer.parseInt(String.valueOf(CartActivity.cartItems.get(i).getPrice())) * CartActivity.cartItems.get(i).getCount();
 
         }
 
-        CartActivity.totalPrice.setText(String.valueOf(CartActivity.total));
+        CartActivity.totalPrice.setText("₹ " + String.valueOf(CartActivity.total));
 
 
         if (!cartItems.isEmpty()) {
@@ -148,9 +170,16 @@ public class CartActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     //   Toast.makeText(CartActivity.this, "Coming Soon!", Toast.LENGTH_SHORT).show();
-                    CreateOrder();
+                /*    CreateOrder();
 
                     placeOrder(order);
+                */
+                    Intent i = new Intent(CartActivity.this, PaymentActivity.class);
+
+                    i.putExtra("price", totalPrice.getText());
+
+                    startActivity(i);
+
                 }
             });
 
@@ -158,53 +187,24 @@ public class CartActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    public void placeOrder(Order order) {
-
-
-        FoodieClient foodieClient = ServiceGenerator.createService(FoodieClient.class);
-        Call<Order> call = foodieClient.placeOrder(WelcomeActvity.token, order);
-        Log.i("cartitems size: ", order.getRestaurantId() + " " + order.getFoodList().get(0).get_id());
-        ;
-        //    progressBar.setVisibility(View.VISIBLE);
-        call.enqueue(new Callback<Order>() {
-            @Override
-            public void onResponse(Call<Order> call, Response<Order> response) {
-
-                Log.i("Ordered: ", String.valueOf(response.message()));
-                if (response.code() == 200) {
-                    Toast.makeText(getApplicationContext(), "Order placed", Toast.LENGTH_SHORT).show();
-                    Intent i = new Intent(CartActivity.this, MainActivity.class);
-                    cartItems.clear();
-                    FoodsActivity.rest_id = null;
-                    saveData(sharedPreferences);
-                    CartActivity.this.finish();
-                    CartActivity.super.onBackPressed();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Order> call, Throwable t) {
-                Log.i("Orderederr: ", t.toString());
-            }
-        });
-
-
+    public void Payment() {
 
     }
 
 
-    public void CreateOrder() {
-        for (int i = 0; i < cartItems.size(); i++) {
-
-            orderFood.add(new OrderFood(cartItems.get(i).getFoodid().get_id(), cartItems.get(i).getCount()));
-        }
-
-        payment = new Payment("COD", "UNPAID");
-
-        order = new Order(FoodsActivity.rest_id, orderFood, payment);
-
-
+/*
+    public static PaymentsClient createPaymentsClient(Activity activity) {
+        Wallet.WalletOptions walletOptions =new Wallet.WalletOptions.Builder()
+                .setEnvironment(Constants.)
+                .setTheme(WalletConstants.THEME_DARK)
+                .build();
+        return Wallet.getPaymentsClient(activity, walletOptions);
     }
+*/
+
+
+
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -225,4 +225,6 @@ public class CartActivity extends AppCompatActivity {
 
         finish();
     }
+
+
 }

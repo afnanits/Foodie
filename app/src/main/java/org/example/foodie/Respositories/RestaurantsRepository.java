@@ -49,7 +49,10 @@ public class RestaurantsRepository {
 
                 Log.i("Response", String.valueOf(response.body().get(0).getName()));
                 if (response.isSuccessful()) {
+
+
                     restaurantData.setValue(response.body());
+
 
                 }
 

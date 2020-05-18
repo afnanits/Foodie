@@ -2,7 +2,10 @@ package org.example.foodie;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,6 +66,20 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.CustomViewHold
         Log.i("afnan", String.valueOf(items.get(position).getFoodid()));
         Foodid foodid = items.get(position).getFoodid();
         holder.foodName.setText(foodid.getName());
+
+        holder.price.setText("₹ " + items.get(position).getPrice());
+
+        String encodedImage = items.get(position).getFoodid().getImage();
+
+        if (encodedImage != null) {
+            byte[] image = Base64.decode(encodedImage, Base64.DEFAULT);
+            Bitmap i = BitmapFactory.decodeByteArray(image, 0, image.length);
+            holder.imageView.setImageBitmap(i);
+        }
+
+
+
+
 
 
         sharedPreferences = context.getSharedPreferences("org.example.foodie", Context.MODE_PRIVATE);
@@ -177,11 +194,14 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.CustomViewHold
         private ImageView removeFood;
         private LinearLayout itemButton;
         private TextView itemQuantity;
+        private ImageView imageView;
 
 
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
 
+
+            price = itemView.findViewById(R.id.priceOfFood);
             foodName = itemView.findViewById(R.id.food_name);
             addfood = itemView.findViewById(R.id.addFood);
             addToCart = itemView.findViewById(R.id.addToCart);
@@ -189,6 +209,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.CustomViewHold
             removeFood = itemView.findViewById(R.id.removeItem);
             itemButton = itemView.findViewById(R.id.itemButton);
             itemQuantity = itemView.findViewById(R.id.itemQuantity);
+            imageView = itemView.findViewById(R.id.food_image);
         }
     }
 

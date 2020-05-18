@@ -182,10 +182,6 @@ public class MainActivity extends AppCompatActivity implements RestaurantAdapter
         Class fragmentClass = null;
         switch (menuItem.getItemId()) {
 
-            /*case R.id.childDetails:
-                fragmentClass = ChildDetails.class;
-                break;*/
-
             case R.id.home:
                 id = true;
                 fragmentClass = Home.class;
@@ -198,8 +194,10 @@ public class MainActivity extends AppCompatActivity implements RestaurantAdapter
             case R.id.logout:
                 LogoutUser();
                 return;
-
-
+            case R.id.orders:
+                Intent i = new Intent(MainActivity.this, OrdersActivity.class);
+                this.startActivity(i);
+                return;
 
         }
 
@@ -233,29 +231,26 @@ public class MainActivity extends AppCompatActivity implements RestaurantAdapter
                 .getSearchableInfo(getComponentName()));
         searchView.setMaxWidth(Integer.MAX_VALUE);
         searchView.setSubmitButtonEnabled(false);
+        if (Home.isConnectionAvailable(this)) {
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                // filter recycler view when query submitted
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    // filter recycler view when query submitted
 
-                return true;
-            }
+                    return true;
+                }
 
-            @Override
-            public boolean onQueryTextChange(String query) {
-                // filter recycler view when text is changed
-                Home.adapter.getFilter().filter(query);
-                return false;
-            }
-        });
+                @Override
+                public boolean onQueryTextChange(String query) {
+                    // filter recycler view when text is changed
+                    Home.adapter.getFilter().filter(query);
+                    return false;
+                }
+            });
+
+        }
         return true;
-
-
-
-
-
-
     }
 
     private void setItemsVisibility(Menu menu, MenuItem exception, boolean visible) {

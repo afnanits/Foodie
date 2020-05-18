@@ -25,7 +25,7 @@ public class OrdersViewModel extends ViewModel {
         mutableLiveData = userRepository.getUser();
     }
 
-    public LiveData<ResponseUser> getRestaurantRepository() {
+    public LiveData<ResponseUser> getUserRepository() {
         return mutableLiveData;
     }
 

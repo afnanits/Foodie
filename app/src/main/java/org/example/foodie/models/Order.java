@@ -85,6 +85,14 @@ public class Order {
 
     }
 }*/
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public String get_id() {
+        return _id;
+    }
 }
 
 

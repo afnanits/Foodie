@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerInParent="true"
+    android:layout_centerVertical="true"
+    android:layout_marginTop="0dp"
+    android:orientation="vertical"
+    tools:context=".PaymentActivity">
+
+    <include
+        layout="@layout/design_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <include
+        android:id="@+id/googlePaay"
+        layout="@layout/googlepay_button" />
+
+
+    <Button
+
+        android:id="@+id/payOndelivery"
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="58sp"
+        android:layout_marginLeft="@dimen/_55sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="Pay On delivery"
+        android:textSize="@dimen/_15sdp"
+        app:icon="@drawable/baseline_money_white_18dp" />
+
+    <ProgressBar
+        android:id="@+id/paymentWait"
+        android:layout_width="128dp"
+        android:layout_height="59dp"
+        android:layout_marginLeft="@dimen/_100sdp"
+        android:layout_marginTop="@dimen/_minus60sdp"
+        android:visibility="gone" />
+</LinearLayout>
+
+
+
+

@@ -18,4 +18,16 @@ public class Payment {
         this.status = status;
 
     }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public int getTotal() {
+        return total;
+    }
 }

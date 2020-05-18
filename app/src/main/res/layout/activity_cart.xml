@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:layout_marginTop="@dimen/_100sdp"
     tools:context=".CartActivity">
 
@@ -42,8 +41,9 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/cartList"
+
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_320sdp"
             android:layout_marginTop="@dimen/_20sdp" />
 
         <View
@@ -78,7 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
 
-            android:text="Place Order" />
+            android:text="Proceed to Payment" />
 
     </RelativeLayout>
 
