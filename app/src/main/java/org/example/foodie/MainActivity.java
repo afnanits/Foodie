@@ -328,6 +328,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAdapter
         editor.clear();
         editor.apply();
 
+
         editor.commit();
     }
 

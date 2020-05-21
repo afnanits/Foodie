@@ -47,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
                 adminPanelLogin.setVisibility(View.INVISIBLE);
                 notAdminPaneLogin.setVisibility(View.VISIBLE);
                 InputPhone.setVisibility(View.INVISIBLE);
+
                 InputRestaurantId.setVisibility(View.VISIBLE);
 
             }

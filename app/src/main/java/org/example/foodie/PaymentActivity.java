@@ -258,7 +258,7 @@ public class PaymentActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Order> call, Throwable t) {
-                Log.i("Orderederr: ", t.toString());
+                Log.i("Orderederr: ", t.getMessage());
             }
         });
     }
