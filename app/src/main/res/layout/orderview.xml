@@ -41,7 +41,7 @@
             android:id="@+id/itemPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_240sdp"
+            android:layout_marginLeft="@dimen/_200sdp"
             android:layout_marginTop="@dimen/_38sdp"
             android:text="price" />
 
@@ -65,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/foodList"
-            android:layout_marginLeft="@dimen/_250sdp"
+            android:layout_marginLeft="@dimen/_200sdp"
             android:layout_marginTop="@dimen/_18sdp"
             android:text="total price" />
         <TextView
@@ -85,6 +85,92 @@
             android:layout_marginTop="@dimen/_25sdp"
             android:text="date" />
 
+        <com.rey.material.widget.TextView
+            android:id="@+id/deliveryBoy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mode"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="DELIVERY BOY:"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/deliveryBoyName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mode"
+            android:layout_marginLeft="@dimen/_2sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_toRightOf="@+id/deliveryBoy"
+            android:text="DeliveryBoy Name"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/contact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/deliveryBoy"
+            android:layout_marginTop="13dp"
+            android:layout_marginRight="@dimen/_14sdp"
+            android:layout_toLeftOf="@+id/deliveryBoyName"
+            android:text="Contact No."
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/restaurantName"
+            android:background="@android:color/darker_gray"
+            android:paddingTop="@dimen/_18sdp"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/foodList"
+            android:background="@android:color/darker_gray"
+            android:paddingTop="@dimen/_18sdp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/deliveryBoyContact"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/deliveryBoy"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginRight="-180sp"
+            android:layout_toLeftOf="@+id/contact"
+
+            android:text="contactNo."
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/contact"
+            android:layout_marginLeft="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="STATUS:"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/orderStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/contact"
+            android:layout_marginLeft="@dimen/_2sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+
+            android:layout_toRightOf="@+id/status"
+            android:text="status"
+            android:textStyle="bold" />
+        />
 
     </RelativeLayout>
 

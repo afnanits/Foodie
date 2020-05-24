@@ -18,6 +18,10 @@ public class Order {
     public User user;
     @SerializedName("restaurant")
     Restaurant restaurant;
+
+    @SerializedName("assign")
+    public boolean assign;
+
     @SerializedName("payment")
     Payment payment;
     @SerializedName("_id")
@@ -27,6 +31,26 @@ public class Order {
 
     @SerializedName("restaurantId")
     String restaurantId;
+    @SerializedName("deliveryGuy")
+    DeliveryGuy deliveryGuy;
+    @SerializedName("status")
+    String status;
+
+    public boolean getAssign() {
+        return assign;
+    }
+
+    public boolean isAssign() {
+        return assign;
+    }
+
+    public DeliveryGuy getDeliveryGuy() {
+        return deliveryGuy;
+    }
+
+    public String getStatus() {
+        return status;
+    }
 
     List<Restaurant> restaurantList;
 

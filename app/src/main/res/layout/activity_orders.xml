@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/allOrders"
+    android:layout_marginTop="@dimen/_35sdp"
     tools:context=".OrdersActivity">
 
 </androidx.recyclerview.widget.RecyclerView>

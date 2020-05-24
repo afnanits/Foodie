@@ -7,19 +7,24 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
+import org.example.foodie.models.Order;
 import org.example.foodie.models.ResponseUser;
 import org.example.foodie.models.Restaurant;
 import org.example.foodie.viewmodels.OrdersViewModel;
 import org.example.foodie.viewmodels.RestaurantsViewModel;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class OrdersActivity extends AppCompatActivity {
 
     OrdersViewModel ordersViewModel;
     OrdersAdapter adapter;
+    List<Order> orders;
     RecyclerView orderRecView;
 
     @Override
@@ -39,14 +44,19 @@ public class OrdersActivity extends AppCompatActivity {
             @Override
             public void onChanged(ResponseUser responseUser) {
 
-                if (responseUser.getOrders() != null) {
+                if (responseUser.getUser().getOrders() != null) {
+
+                    Log.i("Ordersss:", String.valueOf(responseUser.getUser().getOrders().get(0).getFoodList().get(0).getFoodName()));
                     adapter = new OrdersAdapter(OrdersActivity.this);
-                    adapter.setOrders(responseUser.getOrders());
+                    orders = new ArrayList<>(responseUser.getUser().getOrders().size());
+                    orders = responseUser.getUser().getOrders();
+                    Collections.reverse(orders);
+                    adapter.setOrders(orders);
                     orderRecView.setAdapter(adapter);
 
                 }
 
-
+                adapter.notifyDataSetChanged();
             }
         });
 

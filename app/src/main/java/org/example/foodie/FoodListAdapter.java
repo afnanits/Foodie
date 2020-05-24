@@ -50,7 +50,7 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.Custom
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
         holder.itemName.setText(items.get(position).getFoodName());
         holder.itemQuantity.setText(String.valueOf(items.get(position).getCount()));
-        holder.itemPrice.setText(items.get(position).getPrice());
+        holder.itemPrice.setText(String.valueOf(items.get(position).getPrice() * items.get(position).getCount()));
 
 
     }
@@ -80,7 +80,7 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.Custom
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
             itemName = itemView.findViewById(R.id.itemName);
-            itemPrice = itemView.findViewById(R.id.itemPrice);
+            itemPrice = itemView.findViewById(R.id.itemTotal);
             itemQuantity = itemView.findViewById(R.id.itemQuantity);
 
         }

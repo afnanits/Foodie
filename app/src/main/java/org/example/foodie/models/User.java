@@ -84,6 +84,10 @@ public class User {
         return phone;
     }
 
+    public List<Order> getOrders() {
+        return orders;
+    }
+
     public void setPhone(String phone) {
         this.phone = phone;
     }
