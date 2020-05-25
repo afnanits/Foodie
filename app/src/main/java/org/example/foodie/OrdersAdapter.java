@@ -60,6 +60,8 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.CustomView
 
         if (items.get(position).getAssign()) {
 
+            holder.deliveryBoyContact.setVisibility(View.VISIBLE);
+
             holder.deliveryBoyName.setText(items.get(position).getDeliveryGuy().getName());
             holder.deliveryBoyContact.setText(items.get(position).getDeliveryGuy().phone);
 

@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import org.example.foodie.models.Food;
 import org.example.foodie.models.Restaurant;
@@ -40,12 +41,14 @@ public class FoodsActivity extends AppCompatActivity {
     View rootView;
     FoodsViewModel foodsViewModel;
     private FoodsViewModel mViewModel;
+    ProgressBar loader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_foods);
-
+        loader = findViewById(R.id.loader1);
+        loader.setVisibility(View.VISIBLE);
 
         recyclerView = findViewById(R.id.food_recycler_view);
         mViewModel = ViewModelProviders.of(FoodsActivity.this).get(FoodsViewModel.class);
@@ -64,14 +67,15 @@ public class FoodsActivity extends AppCompatActivity {
                     adapter = new FoodAdapter(FoodsActivity.this);
                     adapter.setFood(foods);
 
+
                     recyclerView.setLayoutManager(new GridLayoutManager(FoodsActivity.this, 1));
                     recyclerView.setAdapter(adapter);
-
+                    loader.setVisibility(View.GONE);
                     Log.i("foods", String.valueOf("hi"));
 
 
                 }
-
+                loader.setVisibility(View.GONE);
 
 //                Log.i("foodiee", String.valueOf(restaurant.getFoods()));
                 adapter.notifyDataSetChanged();
@@ -104,6 +108,8 @@ public class FoodsActivity extends AppCompatActivity {
         } else {
             adapter.notifyDataSetChanged();
         }
+        loader.setVisibility(View.GONE);
+
     }
 
 

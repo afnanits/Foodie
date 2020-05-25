@@ -80,8 +80,6 @@ public class CartActivity extends AppCompatActivity {
                 cartItems = gson.fromJson(json, type);
             }
             if (id != null) FoodsActivity.rest_id = id;
-
-
         }
 /*
         else{
@@ -103,21 +101,16 @@ public class CartActivity extends AppCompatActivity {
         editor.commit();
     }
 
-    public static void CreateOrder(Payment payment) {
-        for (int i = 0; i < cartItems.size(); i++) {
-            BigInteger decimal = new BigInteger(cartItems.get(i).getFoodid().get_id(), 16);
-
-            Log.i("Answer", decimal.toString(16));
-
-
-            orderFood.add(new OrderFood(decimal.toString(16), cartItems.get(i).getCount()));
+    /*
+        public static PaymentsClient createPaymentsClient(Activity activity) {
+            Wallet.WalletOptions walletOptions =new Wallet.WalletOptions.Builder()
+                    .setEnvironment(Constants.)
+                    .setTheme(WalletConstants.THEME_DARK)
+                    .build();
+            return Wallet.getPaymentsClient(activity, walletOptions);
         }
-
-
-        order = new Order(FoodsActivity.rest_id, orderFood, payment);
-
-
-    }
+    */
+    static CartActivity cartActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -191,16 +184,25 @@ public class CartActivity extends AppCompatActivity {
 
     }
 
+    public static void CreateOrder(Payment payment, String address) {
+        for (int i = 0; i < cartItems.size(); i++) {
+            BigInteger decimal = new BigInteger(cartItems.get(i).getFoodid().get_id(), 16);
 
-/*
-    public static PaymentsClient createPaymentsClient(Activity activity) {
-        Wallet.WalletOptions walletOptions =new Wallet.WalletOptions.Builder()
-                .setEnvironment(Constants.)
-                .setTheme(WalletConstants.THEME_DARK)
-                .build();
-        return Wallet.getPaymentsClient(activity, walletOptions);
+            Log.i("Answer", decimal.toString(16));
+
+
+            orderFood.add(new OrderFood(decimal.toString(16), cartItems.get(i).getCount()));
+        }
+
+        if (address != null)
+            order = new Order(FoodsActivity.rest_id, address, orderFood, payment);
+        else order = new Order(FoodsActivity.rest_id, address, orderFood, payment);
+
     }
-*/
+
+    public static CartActivity getInstance() {
+        return cartActivity;
+    }
 
 
 

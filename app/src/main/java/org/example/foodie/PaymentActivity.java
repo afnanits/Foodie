@@ -19,11 +19,17 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.Toolbar;
@@ -61,9 +67,13 @@ public class PaymentActivity extends AppCompatActivity {
     Button COD;
     private androidx.appcompat.widget.Toolbar toolbar;
     private PaymentsClient paymentsClient;
+    ProgressBar progressBar;
+    private CheckBox defaultAdress;
+    private EditText customAddress;
 
     public static boolean isConnectionAvailable(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
         if (connectivityManager != null) {
             NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();
             if (netInfo != null && netInfo.isConnected()
@@ -84,7 +94,9 @@ public class PaymentActivity extends AppCompatActivity {
 
         COD = findViewById(R.id.payOndelivery);
         toolbar = findViewById(R.id.toolbar);
-
+        customAddress = findViewById(R.id.customAddress);
+        defaultAdress = findViewById(R.id.defaultAddress);
+        progressBar = findViewById(R.id.paymentWait);
         Wallet.WalletOptions walletOptions = new Wallet.WalletOptions.Builder()
                 .setEnvironment(WalletConstants.ENVIRONMENT_TEST).build();
 
@@ -92,17 +104,60 @@ public class PaymentActivity extends AppCompatActivity {
 
 
         setSupportActionBar(toolbar);
-
         // This will display an Up icon (<-), we will replace it with hamburger later
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setTitle("CHOOSE PAYMENT MODE");
 
 
+        progressBar.setVisibility(View.GONE);
+        customAddress.setEnabled(!defaultAdress.isChecked());
+
+        defaultAdress.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                customAddress.setEnabled(!defaultAdress.isChecked());
+                if (defaultAdress.isChecked() || String.valueOf(customAddress.getText()).length() > 0) {
+                    COD.setClickable(true);
+                    proceeToPay.setClickable(true);
+                } else {
+                    COD.setClickable(false);
+                    proceeToPay.setClickable(false);
+                }
+            }
+
+
+        });
+
+        customAddress.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (String.valueOf(customAddress.getText()).length() > 0 || defaultAdress.isChecked()) {
+                    COD.setClickable(true);
+                    proceeToPay.setClickable(true);
+                } else {
+                    COD.setClickable(false);
+                    proceeToPay.setClickable(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+
         proceeToPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
+                COD.setClickable(false);
+                proceeToPay.setClickable(false);
+                progressBar.setVisibility(View.VISIBLE);
                 payUsingUpi(MainActivity.user, "mak25011999@oksbi",
                         "Payment for order", getIntent().getStringExtra("price"));
 
@@ -114,15 +169,19 @@ public class PaymentActivity extends AppCompatActivity {
         COD.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressBar.setVisibility(View.VISIBLE);
                 Payment payment = new Payment("COD", "UNPAID");
-                CartActivity.CreateOrder(payment);
-
+                COD.setClickable(false);
+                proceeToPay.setClickable(false);
+                if (defaultAdress.isChecked())
+                    CartActivity.CreateOrder(payment, null);
+                else CartActivity.CreateOrder(payment, String.valueOf(customAddress.getText()));
                 placeOrder(CartActivity.order);
             }
         });
-
-
     }
+
+
 
     void payUsingUpi(String name, String upiId, String note, String amount) {
         Log.e("main ", "name " + name + "--up--" + upiId + "--" + note + "--" + amount);
@@ -212,7 +271,10 @@ public class PaymentActivity extends AppCompatActivity {
                 //Code to handle successful transaction here.
                 Toast.makeText(PaymentActivity.this, "Transaction successful.", Toast.LENGTH_SHORT).show();
                 Log.e("UPI", "payment successfull: " + approvalRefNo);
-                CartActivity.CreateOrder(new Payment("UPI", "PAID"));
+                if (defaultAdress.isChecked())
+                    CartActivity.CreateOrder(new Payment("UPI", "PAID"), null);
+                else
+                    CartActivity.CreateOrder(new Payment("UPI", "PAID"), String.valueOf(customAddress.getText()));
                 placeOrder(CartActivity.order);
 
             } else if ("Payment cancelled by user.".equals(paymentCancel)) {
@@ -232,10 +294,10 @@ public class PaymentActivity extends AppCompatActivity {
 
 
         FoodieClient foodieClient = ServiceGenerator.createService(FoodieClient.class);
-        Call<Order> call = foodieClient.placeOrder(WelcomeActvity.token, order);
+        Call<Order> call = foodieClient.placeOrder(MainActivity.token, order);
         Log.i("cartitems size: ", order.getRestaurantId() + " " + order.getFoodList().get(0).get_id());
-        ;
-        Log.i("tokenOrder", WelcomeActvity.token);
+
+        //        Log.i("tokenOrder", WelcomeActvity.token);
         //    progressBar.setVisibility(View.VISIBLE);
         call.enqueue(new Callback<Order>() {
             @Override
@@ -250,15 +312,24 @@ public class PaymentActivity extends AppCompatActivity {
                     FoodsActivity.rest_id = null;
                     CartActivity.orderFood.clear();
                     CartActivity.saveData(sharedPreferences);
+                    finish();
                     startActivity(i);
+                    //  CartActivity.getInstance().finish();
+
                     //CartActivity.this.finish();
                     //CartActivity.super.onBackPressed();
                 }
+                progressBar.setVisibility(View.GONE);
+                COD.setClickable(true);
+                proceeToPay.setClickable(true);
             }
 
             @Override
             public void onFailure(Call<Order> call, Throwable t) {
                 Log.i("Orderederr: ", t.getMessage());
+                progressBar.setVisibility(View.GONE);
+                COD.setClickable(true);
+                proceeToPay.setClickable(true);
             }
         });
     }

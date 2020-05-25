@@ -21,4 +21,13 @@
         android:layout_below="@+id/action_bar"
         android:layout_marginTop="10dp"
         android:scrollbars="vertical" />
+
+    <ProgressBar
+        android:id="@+id/loader1"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
+
 </RelativeLayout>

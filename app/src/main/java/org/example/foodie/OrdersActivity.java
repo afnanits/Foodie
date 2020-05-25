@@ -1,6 +1,7 @@
 package org.example.foodie;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import org.example.foodie.models.Order;
 import org.example.foodie.models.ResponseUser;
@@ -26,19 +28,26 @@ public class OrdersActivity extends AppCompatActivity {
     OrdersAdapter adapter;
     List<Order> orders;
     RecyclerView orderRecView;
+    Toolbar toolbar;
+    ProgressBar loader;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orders);
-
+        loader = findViewById(R.id.loader1);
         orderRecView = findViewById(R.id.allOrders);
-
-
+        toolbar = findViewById(R.id.toolbar);
+        loader.setVisibility(View.VISIBLE);
         ordersViewModel = ViewModelProviders.of(OrdersActivity.this).get(OrdersViewModel.class);
 
         ordersViewModel.init();
 
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("ORDER HISTORY");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ordersViewModel.getUserRepository().observe(this, new Observer<ResponseUser>() {
             @Override
@@ -55,6 +64,7 @@ public class OrdersActivity extends AppCompatActivity {
                     orderRecView.setAdapter(adapter);
 
                 }
+                loader.setVisibility(View.GONE);
 
                 adapter.notifyDataSetChanged();
             }
@@ -79,8 +89,14 @@ public class OrdersActivity extends AppCompatActivity {
         } else {
             adapter.notifyDataSetChanged();
         }
-
+        loader.setVisibility(View.GONE);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
 
+        finish();
+
+    }
 }

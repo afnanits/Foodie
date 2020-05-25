@@ -10,11 +10,36 @@
     android:orientation="vertical"
     tools:context=".PaymentActivity">
 
+
     <include
         layout="@layout/design_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+
+    <EditText
+        android:id="@+id/customAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_18sdp"
+        android:background="@drawable/input_design"
+        android:enabled="false"
+        android:hint="Use Custom Address"
+        android:inputType="text"
+        android:padding="13dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textColorHint="@color/colorPrimaryDark"
+        android:textSize="11dp"
+        android:textStyle="bold" />
+
+
+    <CheckBox
+        android:id="@+id/defaultAddress"
+        android:layout_width="139dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:checked="true"
+        android:text="USE DEFAULT ADRESS" />
 
     <include
         android:id="@+id/googlePaay"
@@ -37,8 +62,8 @@
         android:layout_width="128dp"
         android:layout_height="59dp"
         android:layout_marginLeft="@dimen/_100sdp"
-        android:layout_marginTop="@dimen/_minus60sdp"
-        android:visibility="gone" />
+        android:layout_marginTop="-232dp"
+        android:visibility="visible" />
 </LinearLayout>
 
 

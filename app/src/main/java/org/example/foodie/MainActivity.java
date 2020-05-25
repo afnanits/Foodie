@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAdapter
     private Toolbar toolbar;
     private NavigationView nvDrawer;
     private ProgressBar progressBar;
+    public static String token;
     //DrawerLayout drawer;
     //NavigationView navigationView;
     FrameLayout frameLayout;
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAdapter
 
         Intent i = getIntent();
 
-        String token = i.getStringExtra("token");
+        token = i.getStringExtra("token");
         user = i.getStringExtra("name");
 
         if (user == null) {
@@ -78,6 +79,14 @@ public class MainActivity extends AppCompatActivity implements RestaurantAdapter
             SharedPreferences.Editor editor = sharedPreferences.edit();
 
             user = sharedPreferences.getString("name", null);
+        }
+
+        if (token == null) {
+            SharedPreferences sharedPreferences = getSharedPreferences("org.example.foodie", Context.MODE_PRIVATE);
+
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+
+            token = sharedPreferences.getString("token", null);
         }
 
 
@@ -267,6 +276,10 @@ public class MainActivity extends AppCompatActivity implements RestaurantAdapter
             searchView.setIconified(true);
             return;
         }
+
+        CartActivity.getInstance().finish();
+        finish();
+
         super.onBackPressed();
     }
 

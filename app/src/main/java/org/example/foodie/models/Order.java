@@ -19,6 +19,8 @@ public class Order {
     @SerializedName("restaurant")
     Restaurant restaurant;
 
+    @SerializedName("address")
+    String address;
     @SerializedName("assign")
     public boolean assign;
 
@@ -56,6 +58,13 @@ public class Order {
 
     public Order(String restaurantId, List<OrderFood> foodList, Payment payment) {
         this.payment = payment;
+        this.foodList = foodList;
+        this.restaurantId = restaurantId;
+    }
+
+    public Order(String restaurantId, String address, List<OrderFood> foodList, Payment payment) {
+        this.payment = payment;
+        this.address = address;
         this.foodList = foodList;
         this.restaurantId = restaurantId;
     }
