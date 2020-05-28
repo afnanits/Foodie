@@ -240,7 +240,7 @@ public class PaymentActivity extends AppCompatActivity {
                     Log.e("UPI", "onActivityResult: " + "Return data is null");
                     ArrayList<String> dataList = new ArrayList<>();
                     dataList.add("nothing");
-                    upiPaymentDataOperation(dataList);
+                    Toast.makeText(getApplicationContext(), "NO UPI APP FOUND", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }

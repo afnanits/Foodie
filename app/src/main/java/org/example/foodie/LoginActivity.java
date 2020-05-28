@@ -70,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (adminPanelLogin.getVisibility()==View.VISIBLE) { //he is an ordinary user
 
-                    CreateUser(String.valueOf(InputPhone.getText()) , String.valueOf(InputPassword.getText()));
+                    CreateUser("+91" + String.valueOf(InputPhone.getText()), String.valueOf(InputPassword.getText()));
                     //  Log.i("Credentials", user.getEmail() + " " + user.getPassword());
                     LoginUser(user);
                 } else { //log in a resturant user

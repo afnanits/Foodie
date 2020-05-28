@@ -19,6 +19,7 @@ import org.example.foodie.models.Order;
 import org.example.foodie.models.OrderFood;
 import org.example.foodie.models.ResponseUser;
 import org.example.foodie.models.Restaurant;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +75,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.CustomView
         }
         holder.orderStatus.setText(items.get(position).getStatus());
 
+        holder.orderDate.setText(items.get(position).getCreatedAt().substring(0, 10));
 
         //set Elements here
 
@@ -106,7 +108,8 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.CustomView
         private TextView deliveryBoyName;
         private TextView deliveryBoyContact;
         private TextView orderStatus;
-
+        private TextView restaurantContact;
+        private TextView orderDate;
         public CustomViewHolder(View view) {
             super(view);
 
@@ -116,7 +119,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.CustomView
             deliveryBoyName = view.findViewById(R.id.deliveryBoyName);
             deliveryBoyContact = view.findViewById(R.id.deliveryBoyContact);
             orderStatus = view.findViewById(R.id.orderStatus);
-
+            orderDate = view.findViewById(R.id.orderDate);
         }
     }
 
