@@ -342,7 +342,11 @@ public class PaymentActivity extends AppCompatActivity {
         finish();
     }
 
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+    }
 }
 
 
