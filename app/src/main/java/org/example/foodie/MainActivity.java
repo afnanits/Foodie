@@ -28,6 +28,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
 
+import org.example.foodie.Fragment.ContactUs;
+import org.example.foodie.Fragment.UpdateInfo;
 import org.example.foodie.models.Restaurant;
 import org.example.foodie.org.example.foodie.apifetch.FoodieClient;
 import org.example.foodie.org.example.foodie.apifetch.ServiceGenerator;
@@ -200,6 +202,11 @@ public class MainActivity extends AppCompatActivity implements RestaurantAdapter
                 //getSupportFragmentManager().popBackStackImmediate("frag_back",0);
                 this.startActivity(intent);
                 return;
+            case R.id.update:
+                id = true;
+                fragmentClass = UpdateInfo.class;
+                loadFragment(new UpdateInfo());
+                break;
             case R.id.logout:
                 LogoutUser();
                 return;
@@ -207,6 +214,13 @@ public class MainActivity extends AppCompatActivity implements RestaurantAdapter
                 Intent i = new Intent(MainActivity.this, OrdersActivity.class);
                 this.startActivity(i);
                 return;
+
+            case R.id.contactus:
+                id = true;
+                fragmentClass = ContactUs.class;
+                loadFragment(new ContactUs());
+                break;
+
 
         }
 
