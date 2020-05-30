@@ -18,10 +18,13 @@
             android:icon="@drawable/twotone_shopping_cart_24"
             android:title="Cart"/>
         <item
-            android:id="@+id/help"
-            android:icon="@drawable/twotone_help_24"
-
-            android:title="Help" />
+            android:id="@+id/update"
+            android:icon="@drawable/baseline_update_black_18dp"
+            android:title="Update Info"/>
+        <item
+            android:id="@+id/contactus"
+            android:icon="@drawable/contactus"
+            android:title="Contact Us" />
         <item
             android:id="@+id/logout"
             android:icon="@drawable/twotone_power_settings_new_24"

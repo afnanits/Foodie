@@ -10,6 +10,8 @@ import org.example.foodie.models.Restaurant;
 import org.example.foodie.models.RestaurantCreate.RestaurantCreate;
 import org.example.foodie.models.RestaurantLogIn.ResponseRestaurantUser;
 import org.example.foodie.models.RestaurantLogIn.RestaurantUser;
+import org.example.foodie.models.Update.UpdateBody;
+import org.example.foodie.models.Update.UpdateResponse;
 import org.example.foodie.models.User;
 import org.json.JSONObject;
 
@@ -23,6 +25,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -48,7 +51,9 @@ public interface FoodieClient {
     @POST("user/order")
     Call<Order> placeOrder(@Header("Authorization") String token, @Body Order order);
 
-
+    //update info
+    @PATCH("user/me")
+    Call<UpdateResponse> updateUserInfo(@Header("Authorization") String token, @Body UpdateBody updateBody);
 
     //Connecting to endpoint to see all restaurants available
     @GET("restaurant")

@@ -16,10 +16,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.154" />
 
+
     <EditText
         android:id="@+id/login_phone_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="386dp"
+        android:layout_height="63dp"
         android:layout_margin="10dp"
         android:background="@drawable/input_design"
         android:hint="Phone"
@@ -32,54 +33,30 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.52"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.531" />
+        app:layout_constraintVertical_bias="0.536" />
 
     <EditText
-        android:id="@+id/login_restaurant_id_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:id="@+id/login_password_input"
+        android:layout_width="388dp"
+        android:layout_height="57dp"
+        android:layout_below="@+id/login_phone_input"
         android:layout_margin="@dimen/_10sdp"
         android:background="@drawable/input_design"
-        android:hint="Restaurant Id"
-        android:inputType="text"
+        android:hint="Password"
+        android:inputType="textPassword"
         android:padding="@dimen/_15sdp"
         android:textColor="@color/colorPrimaryDark"
         android:textColorHint="@color/colorPrimaryDark"
         android:textSize="@dimen/_13sdp"
         android:textStyle="bold"
-        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintHorizontal_bias="0.76"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.531" />
-
-
-    <EditText
-            android:id="@+id/login_password_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/login_phone_input"
-            android:layout_margin="@dimen/_10sdp"
-            android:background="@drawable/input_design"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:padding="@dimen/_15sdp"
-            android:textColor="@color/colorPrimaryDark"
-            android:textColorHint="@color/colorPrimaryDark"
-            android:textSize="@dimen/_13sdp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.52"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.647" />
-
+        app:layout_constraintVertical_bias="0.651" />
 
     <LinearLayout
         android:id="@+id/linear1"
@@ -109,48 +86,13 @@
         android:text="Log in"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
-        android:textSize="1dp"
+        android:textSize="@dimen/_15sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linear1"
         app:layout_constraintVertical_bias="0.14" />
-
-    <TextView
-        android:id="@+id/admin_panel_linkLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/login_btn"
-        android:layout_alignParentEnd="true"
-        android:text="I'm an admin?"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="13sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.944"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.872" />
-
-    <TextView
-        android:id="@+id/not_admin_panel_linkLogn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/login_btn"
-        android:layout_alignParentStart="true"
-        android:text="I'm not an admin?"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="13sp"
-        android:textStyle="bold"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.063"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.887" />
 
     <ProgressBar
         android:id="@+id/progressBar1"
