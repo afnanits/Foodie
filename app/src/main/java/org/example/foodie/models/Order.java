@@ -37,6 +37,8 @@ public class Order {
     DeliveryGuy deliveryGuy;
     @SerializedName("status")
     String status;
+    @SerializedName("createdAt")
+    String createdAt;
 
     public boolean getAssign() {
         return assign;
@@ -52,6 +54,10 @@ public class Order {
 
     public String getStatus() {
         return status;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
     }
 
     List<Restaurant> restaurantList;

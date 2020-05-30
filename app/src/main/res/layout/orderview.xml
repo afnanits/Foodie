@@ -16,9 +16,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:text="Restaurant name"
-
-
-            android:textSize="30dp" />
+            android:capitalize="characters"
+            android:textSize="@dimen/_15sdp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/itemName"
@@ -170,7 +170,27 @@
             android:layout_toRightOf="@+id/status"
             android:text="status"
             android:textStyle="bold" />
-        />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/contact"
+            android:layout_marginLeft="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_toRightOf="@+id/orderStatus"
+            android:text="Date:" />
+
+        <TextView
+            android:id="@+id/orderDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/contact"
+            android:layout_marginLeft="@dimen/_2sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_toRightOf="@+id/date"
+            android:text="orderDate" />
+
 
     </RelativeLayout>
 

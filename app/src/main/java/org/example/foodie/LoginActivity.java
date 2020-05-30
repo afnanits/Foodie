@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                    CreateUser(String.valueOf(InputPhone.getText()) , String.valueOf(InputPassword.getText()));
+                    CreateUser("+91" + String.valueOf(InputPhone.getText()), String.valueOf(InputPassword.getText()));
                     //  Log.i("Credentials", user.getEmail() + " " + user.getPassword());
                     LoginUser(user);
 
